@@ -1,25 +1,25 @@
 "use client";
 
 import * as React from "react";
-import { Sparkles, ArrowRight, Check, Zap, Layers, Users, Inbox, Sliders } from "lucide-react";
+import { Check, ArrowRight, Terminal } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { getAppUrl } from "@/lib/utils";
+import { GsapReveal, GsapScale } from "@/components/marketing/gsap-effects";
 
-const stages = [
+const continuumStages = [
   {
     id: "01",
-    label: "01 CAPTURE",
+    tab: "01 CAPTURE",
     tag: "Stage 01 • Frictionless Inbox",
-    title: "Zero-Latency Thought Capture",
-    description:
-      "Ideas arrive when you least expect them. Capture rough notes, bug reports, and to-dos in under two seconds without choosing projects, tags, or story points upfront.",
+    headline: "Zero-Latency Thought Capture",
+    description: "Ideas arrive when you least expect them. Capture rough notes, bug reports, and to-dos in under two seconds without choosing projects, tags, or story points upfront.",
     bullets: [
       "Global shortcut capture without leaving your current editor",
       "Automatic unorganized backlog queue for later evaluation",
       "Preserves original mental flow before task structuring",
     ],
-    previewType: "code",
-    codeSnippet: `// SprintDesk Quick Capture API
+    code: `// SprintDesk Quick Capture API
 await sprintdesk.inbox.capture({
   content: "Fix mobile navbar sticky transition",
   source: "cli-shortcut",
@@ -27,23 +27,19 @@ await sprintdesk.inbox.capture({
   capturedAt: new Date().toISOString()
 });
 // Status: Captured to Inbox (0 friction)`,
-    cta: "Explore Capture Inbox",
-    href: "/features#capture",
   },
   {
     id: "02",
-    label: "02 TRIAGE",
-    tag: "Stage 02 • Intelligent Decision",
-    title: "One-Click Context Routing",
-    description:
-      "Triage items when you are calm and ready. Decide with a single click whether a captured idea belongs to your private personal work or a collaborative team sprint.",
+    tab: "02 TRIAGE",
+    tag: "Stage 02 • Context Routing",
+    headline: "One-Click Triage Modal",
+    description: "Triage items when you are calm and ready. Decide with a single click whether a captured note belongs to your private personal flow or a collaborative team sprint.",
     bullets: [
-      "Route immediately to Personal Flow or Team Sprint Board",
+      "Route immediately to Personal Space or Team Sprint Board",
       "Attach initial estimates, priority, and milestone tags",
       "Zero clutter: raw thoughts disappear from your inbox",
     ],
-    previewType: "code",
-    codeSnippet: `// Triage Action: Route to Team Board
+    code: `// Triage Action: Route to Team Board
 const triaged = await sprintdesk.triage({
   itemId: "inbox_9941",
   targetWorkspace: "Engineering Core",
@@ -52,23 +48,19 @@ const triaged = await sprintdesk.triage({
   storyPoints: 3,
   assignee: "@alex.morgan"
 });`,
-    cta: "See Triage Workflow",
-    href: "/how-it-works#triage",
   },
   {
     id: "03",
-    label: "03 PERSONAL",
-    tag: "Stage 03 • Deep Work Sanctuary",
-    title: "Personal Focus Without Team Noise",
-    description:
-      "Work privately on daily priorities without having teammates scrutinize your half-finished drafts or seeing 40 notifications from unrelated team tickets.",
+    tab: "03 PERSONAL",
+    tag: "Stage 03 • Focus Sanctuary",
+    headline: "Personal Focus Without Team Noise",
+    description: "Work privately on daily priorities without teammates scrutinizing your draft notes or drowning in 40 notifications from unrelated team tickets.",
     bullets: [
-      "Calculates your realistic daily finish line in real time",
+      "Calculates your realistic daily finish line in real time (e.g. 5:40 PM)",
       "Private subtasks that never clutter company boards",
       "Daily focus view isolates high-leverage deliverables",
     ],
-    previewType: "code",
-    codeSnippet: `// Personal Workday Finish Line Engine
+    code: `// Personal Workday Finish Line Engine
 calculateFinishTime({
   tasksActive: 4,
   estimatedMinutes: 210,
@@ -76,166 +68,133 @@ calculateFinishTime({
   scheduledMeetings: ["11:00 AM Standup", "2:30 PM 1-on-1"],
   result: "Estimated Finish: 5:40 PM (On Track)"
 });`,
-    cta: "Discover Personal Flow",
-    href: "/personal-task-management",
   },
   {
     id: "04",
-    label: "04 TEAM",
-    tag: "Stage 04 • Coordinated Velocity",
-    title: "Coordinated Team Sprints",
-    description:
-      "When personal deliverables are ready for review, smoothly transition them into shared team swimlanes with story points, velocity burnup, and blocker tracking.",
+    tab: "04 TEAM",
+    tag: "Stage 04 • Coordinated Execution",
+    headline: "Synchronized Team Sprint Board",
+    description: "Promote triaged tasks to the shared sprint board with story point sizing, assignee swimlanes, and automated blocker radar.",
     bullets: [
-      "Cross-functional swimlanes grouped by engineer or epic",
-      "Automated sprint velocity analytics and workload charts",
-      "Immediate blocker alerts before deadlines get missed",
+      "Fibonacci complexity sizing separated from personal hours",
+      "1-Click assignee swimlanes to visualize workload balance",
+      "Real-time card movements with sub-100ms sync across teammates",
     ],
-    previewType: "code",
-    codeSnippet: `// Sprint Board Live Velocity State
-sprintBoard.sync({
-  sprint: "Sprint 42 - Q3 Release",
-  totalPoints: 48,
+    code: `// Team Sprint Board State
+export const sprintConfig = {
+  name: "Sprint 42",
+  capacityStoryPoints: 42,
   completedPoints: 34,
-  velocityTrend: "+18%",
-  openBlockers: 1, // Alert sent to Engineering Lead
-  burndownHealth: "EXCELLENT"
-});`,
-    cta: "View Sprint Management",
-    href: "/sprint-management",
+  columns: ["Backlog", "To Do", "In Progress", "In Review", "Completed"],
+  swimlaneGrouping: "assignee"
+};`,
   },
   {
     id: "05",
-    label: "05 AUTOMATE",
-    tag: "Stage 05 • Hands-Free Workflows",
-    title: "Event-Driven Automations",
-    description:
-      "Eliminate repetitive ticket babysitting. Simple If-This-Then-That rules automatically update assignments, raise priority on blockers, and post Slack alerts.",
+    tab: "05 AUTOMATE",
+    tag: "Stage 05 • Event-Driven Automations",
+    headline: "Event-Driven No-Code Workflows",
+    description: "Create simple deterministic rules that automatically update tasks, notify leads, and escalate blockers without manual babysitting.",
     bullets: [
-      "No-code visual rule builder for engineers and managers",
-      "Instant status triggers on GitHub PR merges and reviews",
-      "Zero ticket bureaucracy: updates happen in the background",
+      "WHEN Status = In Review → THEN Set Priority = High",
+      "Automatically route pull request notifications to assignees",
+      "Instant agency-grade workflow automation without writing code",
     ],
-    previewType: "code",
-    codeSnippet: `// Event-Driven Rule Execution
-when: status.changesTo("In Review")
-and:  priority.is("High")
-then: assignTo("Alex Morgan - Lead")
-and:  slack.notify("#eng-releases", "PR ready for review")
-status: [AUTOMATION ACTIVE ✓]`,
-    cta: "Explore No-Code Automations",
-    href: "/workflow-automation",
+    code: `// Event-Driven Automations Engine
+sprintdesk.automations.registerRule({
+  trigger: { event: "task.status_changed", to: "in_review" },
+  actions: [
+    { type: "set_priority", value: "high" },
+    { type: "assign_member", role: "project_manager" }
+  ]
+});
+// Automated: Status updated & PM notified.`,
   },
 ];
 
 export function Continuum() {
-  const [activeTab, setActiveTab] = React.useState("05");
-  const currentStage = stages.find((s) => s.id === activeTab) || stages[4];
+  const [activeTab, setActiveTab] = React.useState(4); // Default to 05 Automate like screenshot
+  const stage = continuumStages[activeTab];
 
   return (
-    <section className="bg-[#0D2440] text-white py-24 sm:py-32 relative overflow-hidden border-t border-b border-[#1E3A5F]">
-      {/* Background ambient lighting */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2E5E99]/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#7BA4D0]/10 rounded-full blur-3xl pointer-events-none" />
-
-      <Container size="default" className="relative">
+    <section className="py-20 md:py-28 bg-[#0D2440] text-white relative overflow-hidden">
+      <Container size="default">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#7BA4D0] mb-3 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#7BA4D0]" />
-            The Unified Lifecycle
+        <GsapReveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-[#7BA4D0] mb-2">
+              THE FOUNDATION
+            </div>
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+              The 5 Continuum
+            </h2>
           </div>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white mb-4">
-            The 5 Continuum
-          </h2>
-          <p className="text-sm sm:text-base text-[#7BA4D0] leading-relaxed">
-            Stop juggling fragmented tools. SprintDesk unifies Capture → Triage → Personal Focus → Team Execution → Automations into one seamless continuum.
+          <p className="text-sm sm:text-base text-[#CBD6E2] max-w-md">
+            Stop juggling 4 tools. One system: Capture → Triage → Organize → Execute → Automate.
           </p>
+        </GsapReveal>
+
+        {/* 5-Tab Segmented Switcher */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 p-1.5 rounded-xl bg-[#081728] border border-[#1E3A5F] mb-8">
+          {continuumStages.map((s, idx) => (
+            <button
+              key={s.id}
+              onClick={() => setActiveTab(idx)}
+              className={`py-2.5 px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer text-center ${
+                activeTab === idx
+                  ? "bg-[#2E5E99] text-white shadow-sm"
+                  : "text-[#7BA4D0] hover:text-white"
+              }`}
+            >
+              {s.tab}
+            </button>
+          ))}
         </div>
 
-        {/* Horizontal Selector Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-[#1E3A5F] pb-4">
-          {stages.map((stage) => {
-            const isActive = stage.id === activeTab;
-            return (
-              <button
-                key={stage.id}
-                onClick={() => setActiveTab(stage.id)}
-                className={`px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? "bg-[#2E5E99] text-white shadow-md shadow-[#2E5E99]/30"
-                    : "bg-[#163359]/60 text-[#7BA4D0] hover:bg-[#163359] hover:text-white"
-                }`}
-              >
-                {stage.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Active Stage Display Card */}
-        <div className="rounded-2xl border border-[#1E3A5F] bg-[#0A1A2E] p-6 sm:p-8 lg:p-10 shadow-2xl">
+        {/* Stage Content Window matching UI Screenshot */}
+        <GsapScale className="rounded-2xl border border-[#1E3A5F] bg-[#0A1B2F] p-6 sm:p-10 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Narrative */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#163359] border border-[#2E5E99]/60 text-xs font-semibold text-[#7BA4D0]">
-                {currentStage.tag}
+            {/* Left Stage Details (6 cols) */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#7BA4D0]">
+                {stage.tag}
               </div>
-              <h3 className="font-heading font-bold text-2xl sm:text-3xl text-white tracking-tight">
-                {currentStage.title}
+              <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-white">
+                {stage.headline}
               </h3>
               <p className="text-sm text-[#CBD6E2] leading-relaxed">
-                {currentStage.description}
+                {stage.description}
               </p>
 
-              <ul className="space-y-3">
-                {currentStage.bullets.map((bullet, idx) => (
-                  <li key={idx} className="flex items-start gap-3 text-xs text-[#E7F0FA]">
-                    <div className="w-4 h-4 rounded-full bg-[#2E5E99] text-white flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-2.5 h-2.5 stroke-[3]" />
+              <div className="space-y-2.5 pt-2">
+                {stage.bullets.map((bullet, i) => (
+                  <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#E7F0FA]">
+                    <div className="w-4 h-4 rounded mt-0.5 bg-[#2E5E99] text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3" />
                     </div>
                     <span>{bullet}</span>
-                  </li>
+                  </div>
                 ))}
-              </ul>
-
-              <div className="pt-2">
-                <Button
-                  variant="primary"
-                  size="md"
-                  href={currentStage.href}
-                  className="bg-[#2E5E99] hover:bg-[#3d72b5] text-white text-xs font-semibold"
-                >
-                  {currentStage.cta} <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                </Button>
               </div>
             </div>
 
-            {/* Right Interactive/Code Simulation */}
+            {/* Right Terminal / Rule Execution Box (6 cols) */}
             <div className="lg:col-span-6">
-              <div className="rounded-xl border border-[#1E3A5F] bg-[#051120] p-4 sm:p-6 shadow-inner font-mono text-xs">
-                <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#1E3A5F] text-[#7BA4D0] text-[11px]">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    live_engine_trace.log
-                  </span>
-                  <span className="text-[#CBD6E2]/60">Stage {currentStage.id} of 05</span>
+              <div className="rounded-xl border border-[#1E3A5F] bg-[#050D18] p-5 font-mono text-xs text-[#CBD6E2] shadow-inner overflow-x-auto">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#1E3A5F] text-[11px] text-[#5F7083]">
+                  <div className="flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5 text-[#2E5E99]" />
+                    <span>sprintdesk.workflow.engine</span>
+                  </div>
+                  <span className="text-[#23865A] font-bold">ACTIVE ✓</span>
                 </div>
-
-                <pre className="text-[#E7F0FA] overflow-x-auto leading-relaxed whitespace-pre-wrap">
-                  <code>{currentStage.codeSnippet}</code>
+                <pre className="text-xs text-[#7BA4D0] leading-relaxed whitespace-pre-wrap">
+                  {stage.code}
                 </pre>
-
-                <div className="mt-4 pt-3 border-t border-[#1E3A5F] flex items-center justify-between text-[11px] text-[#7BA4D0]">
-                  <span>Zero Data Loss Guarantee</span>
-                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                    <Zap className="w-3 h-3" /> Realtime Sync (12ms)
-                  </span>
-                </div>
               </div>
             </div>
           </div>
-        </div>
+        </GsapScale>
       </Container>
     </section>
   );

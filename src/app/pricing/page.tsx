@@ -8,22 +8,23 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAppUrl } from "@/lib/utils";
+import { GsapReveal, GsapStagger } from "@/components/marketing/gsap-effects";
 
 const faqs = [
   {
     question: "Can I use SprintDesk for free indefinitely?",
     answer:
-      "Yes. Our Free tier provides 1 Personal Workspace and up to 3 Team Workspaces with full access to the Capture Inbox, Kanban board, and our signature Estimated Finish Time predictor. It is completely free forever with no credit card required.",
+      "Yes. Our Free tier provides 1 Personal Workspace and up to 2 Team Workspaces (up to 3 members per workspace) with full access to the Capture Inbox, Kanban board, and our signature Estimated Finish Time predictor. It is completely free forever with no credit card required.",
   },
   {
-    question: "What happens when my team grows beyond 5 members?",
+    question: "What does the Pro plan include?",
     answer:
-      "You can upgrade to Pro Velocity for $8 per seat per month (billed annually) or $10 billed monthly. This unlocks unlimited team workspaces, advanced agile swimlanes, story point estimation, and real-time velocity tracking.",
+      "SprintDesk Pro is $15 per month (or $13.50/mo billed annually with 10% discount). It unlocks up to 5 team workspaces, up to 10 members per workspace, Team & Individual PDF reports, custom date range reporting, the Submit-to-Manager workflow, and priority support.",
   },
   {
     question: "Which plan includes the No-Code Automation Engine?",
     answer:
-      "Automations are included on the Enterprise plan ($20 per seat per month). Enterprise also provides Client Portals, timesheet compliance exports, dedicated Slack support, and SOC-2 Type II documentation.",
+      "Automations are included on the SprintDesk Agency plan ($29 per month or $26.10/mo billed annually with 10% discount). Agency provides unlimited team workspaces, unlimited workspace members, the Automations engine, advanced time tracking, client portals (Coming Soon), and dedicated onboarding support.",
   },
   {
     question: "Can I keep my personal tasks confidential from my employer or team?",
@@ -31,9 +32,9 @@ const faqs = [
       "Absolutely. SprintDesk was engineered specifically for dual-workspace privacy. Personal Task Flow tasks remain 100% private to your account and are never visible on team boards or manager dashboards unless you explicitly triage them to a team board.",
   },
   {
-    question: "Do you offer discounts for open-source projects or non-profits?",
+    question: "Can I switch between monthly and annual billing anytime?",
     answer:
-      "Yes! We offer a 50% discount on Pro and Enterprise tiers for qualified open-source maintainers, non-profit institutions, and educational teams. Reach out to support to claim your coupon.",
+      "Yes. You can switch between monthly and annual billing or upgrade/downgrade tiers at any point directly from your workspace billing settings.",
   },
 ];
 
@@ -41,38 +42,40 @@ const comparisonMatrix = [
   {
     category: "Workspaces & Privacy",
     features: [
-      { name: "Personal Workspaces", free: "1 Workspace", pro: "Unlimited", ent: "Unlimited" },
-      { name: "Team Workspaces", free: "Up to 3", pro: "Unlimited", ent: "Unlimited" },
+      { name: "Personal Space (100% Private)", free: "Included", pro: "Included", ent: "Included" },
+      { name: "Team Workspaces", free: "Up to 2", pro: "Up to 5", ent: "Unlimited" },
+      { name: "Members per Workspace", free: "Up to 3", pro: "Up to 10", ent: "Unlimited" },
       { name: "Dual-Workspace Private Isolation", free: true, pro: true, ent: true },
-      { name: "Quick Capture Inbox", free: true, pro: true, ent: true },
+      { name: "Calendar & Capture Inbox", free: true, pro: true, ent: true },
     ],
   },
   {
-    category: "Agile & Sprint Execution",
+    category: "Task & Sprint Execution",
     features: [
-      { name: "Interactive Kanban Boards", free: true, pro: true, ent: true },
+      { name: "Task Management & Kanban Board", free: true, pro: true, ent: true },
       { name: "Estimated Finish Time Engine", free: true, pro: true, ent: true },
-      { name: "Story Points & Effort Sizing", free: false, pro: true, ent: true },
+      { name: "Story Points & Fibonacci Sizing", free: false, pro: true, ent: true },
       { name: "Assignee & Epic Swimlanes", free: false, pro: true, ent: true },
-      { name: "Sprint Velocity & Burndown Analytics", free: false, pro: true, ent: true },
+      { name: "Submit-to-Manager Workflow", free: false, pro: true, ent: true },
     ],
   },
   {
-    category: "Automations & Scalability",
+    category: "Reporting & Automation",
     features: [
-      { name: "No-Code Event Automation Engine", free: false, pro: false, ent: true },
-      { name: "Custom Client Read-Only Portals", free: false, pro: false, ent: true },
-      { name: "Timesheet & Compliance Exports", free: false, pro: "Basic CSV", ent: "Full Audit Logs" },
-      { name: "GitHub & Slack Webhook Sync", free: "Basic", pro: "Unlimited", ent: "Unlimited" },
+      { name: "Team & Individual PDF Reports", free: false, pro: true, ent: true },
+      { name: "Custom Date Range Reporting", free: false, pro: true, ent: true },
+      { name: "Automations Engine", free: false, pro: false, ent: true },
+      { name: "Advanced Time Tracking", free: false, pro: false, ent: true },
+      { name: "Client Portals (Coming Soon)", free: false, pro: false, ent: true },
     ],
   },
   {
-    category: "Security & Governance",
+    category: "Security & Support",
     features: [
       { name: "Data Encryption at Rest (AES-256)", free: true, pro: true, ent: true },
-      { name: "SOC-2 Type II Compliance Reports", free: false, pro: false, ent: true },
-      { name: "Dedicated Slack Support Channel", free: false, pro: false, ent: true },
-      { name: "Uptime Service Level Agreement (SLA)", free: "Standard", pro: "99.9%", ent: "99.99%" },
+      { name: "Basic Notifications", free: true, pro: true, ent: true },
+      { name: "Priority Support", free: false, pro: true, ent: true },
+      { name: "Dedicated Onboarding Support", free: false, pro: false, ent: true },
     ],
   },
 ];
@@ -122,7 +125,7 @@ export default function PricingPage() {
                 >
                   Annual Billing
                   <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[10px] font-extrabold">
-                    SAVE 20%
+                    10% OFF
                   </span>
                 </button>
               </div>
@@ -133,40 +136,48 @@ export default function PricingPage() {
         {/* Pricing Tiers Grid */}
         <section className="pb-24">
           <Container size="default">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <GsapStagger className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" stagger={0.15}>
               {/* Free Tier */}
               <div className="rounded-2xl border border-[#CBD6E2] bg-white p-8 shadow-sm hover:border-[#7BA4D0] flex flex-col justify-between">
                 <div>
                   <div className="text-sm font-bold uppercase tracking-wider text-[#0D2440] mb-2">
-                    Free Forever
+                    Free
                   </div>
                   <div className="flex items-baseline gap-1 mb-3">
                     <span className="text-5xl font-extrabold text-[#0D2440] font-heading">$0</span>
-                    <span className="text-xs text-[#5F7083] font-medium">forever</span>
+                    <span className="text-xs text-[#5F7083] font-medium">/forever</span>
                   </div>
                   <p className="text-xs text-[#5F7083] leading-relaxed mb-6">
-                    Ideal for individual software engineers, designers, and solo professionals organizing daily focus.
+                    For individuals and small teams getting started.
                   </p>
                   <div className="space-y-3 pt-4 border-t border-[#CBD6E2]/60 mb-8">
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>1 Personal Workspace (100% Private)</span>
+                      <span>Personal Space included</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Up to 3 Team Workspaces (Max 5 members)</span>
+                      <span>Create up to 2 team workspaces</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Core Kanban Boards & Checklists</span>
+                      <span>Invite up to 3 members per workspace</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Estimated Workday Finish Time Engine</span>
+                      <span>Task management & Kanban board</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Frictionless Global Quick Capture</span>
+                      <span>Calendar & Capture Inbox</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
+                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
+                      <span>Basic notifications</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
+                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
+                      <span>Estimated Workday Finish Time</span>
                     </div>
                   </div>
                 </div>
@@ -177,11 +188,11 @@ export default function PricingPage() {
                   href={getAppUrl("/signup")}
                   className="w-full justify-center text-xs font-semibold"
                 >
-                  Start Free — No Credit Card
+                  Free Forever — Start Now
                 </Button>
               </div>
 
-              {/* Pro Velocity Tier */}
+              {/* Pro Tier */}
               <div className="rounded-2xl border-2 border-[#2E5E99] bg-white p-8 shadow-2xl relative flex flex-col justify-between lg:-translate-y-3">
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                   <span className="px-3.5 py-1 rounded-full bg-[#2E5E99] text-white text-xs font-bold tracking-wider uppercase shadow-sm flex items-center gap-1">
@@ -191,18 +202,18 @@ export default function PricingPage() {
 
                 <div>
                   <div className="text-sm font-bold uppercase tracking-wider text-[#0D2440] mb-2">
-                    Pro Velocity
+                    SprintDesk Pro
                   </div>
                   <div className="flex items-baseline gap-1 mb-3">
                     <span className="text-5xl font-extrabold text-[#0D2440] font-heading">
-                      {annualBilling ? "$8" : "$10"}
+                      {annualBilling ? "$13.50" : "$15"}
                     </span>
                     <span className="text-xs text-[#5F7083] font-medium">
-                      / seat / month
+                      / month
                     </span>
                   </div>
                   <p className="text-xs text-[#5F7083] leading-relaxed mb-6">
-                    Engineered for growing engineering squads and product teams shipping fast, predictable sprints.
+                    For growing teams needing reporting and analytics.
                   </p>
                   <div className="space-y-3 pt-4 border-t border-[#CBD6E2]/60 mb-8">
                     <div className="flex items-center gap-2 text-xs text-[#0D2440] font-semibold">
@@ -211,23 +222,27 @@ export default function PricingPage() {
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Unlimited Team Workspaces & Seats</span>
+                      <span>Create up to 5 team workspaces</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Story Points & Sizing Estimation</span>
+                      <span>Invite up to 10 members per workspace</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Advanced Assignee & Epic Swimlanes</span>
+                      <span>Team & Individual PDF Reports</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Real-time Velocity Burnup & Radar</span>
+                      <span>Custom date range reporting</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>GitHub & GitLab PR Sync Webhooks</span>
+                      <span>Submit-to-Manager workflow</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
+                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
+                      <span>Priority support</span>
                     </div>
                   </div>
                 </div>
@@ -238,26 +253,26 @@ export default function PricingPage() {
                   href={getAppUrl("/signup?plan=pro")}
                   className="w-full justify-center text-xs font-semibold bg-[#2E5E99] hover:bg-[#386eb0] text-white shadow-md"
                 >
-                  Start 14-Day Free Pro Trial
+                  Start Pro
                 </Button>
               </div>
 
-              {/* Enterprise Tier */}
+              {/* Agency Tier */}
               <div className="rounded-2xl border border-[#CBD6E2] bg-white p-8 shadow-sm hover:border-[#7BA4D0] flex flex-col justify-between">
                 <div>
                   <div className="text-sm font-bold uppercase tracking-wider text-[#0D2440] mb-2">
-                    Enterprise
+                    SprintDesk Agency
                   </div>
                   <div className="flex items-baseline gap-1 mb-3">
                     <span className="text-5xl font-extrabold text-[#0D2440] font-heading">
-                      {annualBilling ? "$20" : "$25"}
+                      {annualBilling ? "$26.10" : "$29"}
                     </span>
                     <span className="text-xs text-[#5F7083] font-medium">
-                      / seat / month
+                      / month
                     </span>
                   </div>
                   <p className="text-xs text-[#5F7083] leading-relaxed mb-6">
-                    For high-scale engineering organizations requiring automation, custom client access, and compliance.
+                    For agencies and power teams needing automation.
                   </p>
                   <div className="space-y-3 pt-4 border-t border-[#CBD6E2]/60 mb-8">
                     <div className="flex items-center gap-2 text-xs text-[#0D2440] font-semibold">
@@ -266,23 +281,27 @@ export default function PricingPage() {
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>No-Code Event Automation Engine</span>
+                      <span>Unlimited team workspaces</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Custom Read-Only Client Portals</span>
+                      <span>Unlimited workspace members</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Timesheet & Billing Compliance Exports</span>
+                      <span>Automations engine</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>SOC-2 Type II & Audit Log Access</span>
+                      <span>Advanced time tracking</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#0D2440]">
                       <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Dedicated Slack Support & 99.99% SLA</span>
+                      <span>Client portals (Coming Soon)</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
+                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
+                      <span>Dedicated onboarding support</span>
                     </div>
                   </div>
                 </div>
@@ -290,13 +309,13 @@ export default function PricingPage() {
                 <Button
                   variant="dark"
                   size="md"
-                  href={getAppUrl("/signup?plan=enterprise")}
+                  href={getAppUrl("/signup?plan=agency")}
                   className="w-full justify-center text-xs font-semibold"
                 >
-                  Choose Enterprise
+                  Choose Agency
                 </Button>
               </div>
-            </div>
+            </GsapStagger>
           </Container>
         </section>
 
@@ -317,8 +336,8 @@ export default function PricingPage() {
               <div className="grid grid-cols-12 bg-[#0D2440] text-white p-4 font-heading font-bold text-xs">
                 <div className="col-span-6 sm:col-span-5">Feature Breakdown</div>
                 <div className="col-span-2 text-center">Free</div>
-                <div className="col-span-2 sm:col-span-3 text-center text-[#7BA4D0]">Pro Velocity</div>
-                <div className="col-span-2 text-center">Enterprise</div>
+                <div className="col-span-2 sm:col-span-3 text-center text-[#7BA4D0]">Pro</div>
+                <div className="col-span-2 text-center">Agency</div>
               </div>
 
               {comparisonMatrix.map((section, idx) => (

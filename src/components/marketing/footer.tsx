@@ -1,115 +1,99 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
-import { getAppUrl } from "@/lib/utils";
 
-const footerColumns = [
-  {
-    title: "Product",
-    links: [
-      { label: "Features Overview", href: "/features" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "Personal Task Flow", href: "/personal-task-management" },
-      { label: "Team Sprint Board", href: "/sprint-management" },
-      { label: "Team Workload", href: "/team-workload-management" },
-      { label: "No-Code Automations", href: "/workflow-automation" },
-      { label: "Pricing", href: "/pricing" },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      { label: "For Managers & Leads", href: "/team-task-management" },
-      { label: "For Remote Teams", href: "/remote-team-task-management" },
-      { label: "For Individual Focus", href: "/personal-task-management" },
-      { label: "For Growing Teams", href: "/how-it-works" },
-      { label: "Interactive Kanban", href: "/kanban-board" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Productivity Blog", href: "/blog" },
-      { label: "Sprint Planning Guides", href: "/guides" },
-      { label: "Workflow Templates", href: "/templates" },
-      { label: "Compare Alternatives", href: "/compare" },
-      { label: "SprintDesk vs Trello", href: "/compare/sprintdesk-vs-trello" },
-      { label: "SprintDesk vs Asana", href: "/compare/sprintdesk-vs-asana" },
-      { label: "SprintDesk vs ClickUp", href: "/compare/sprintdesk-vs-clickup" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About SprintDesk", href: "/how-it-works" },
-      { label: "Security Architecture", href: "/pricing" },
-      { label: "Log In", href: getAppUrl("/login") },
-      { label: "Sign Up", href: getAppUrl("/signup") },
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-    ],
-  },
-];
+const footerSections = {
+  Product: [
+    { label: "Features", href: "/features" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Kanban Board", href: "/kanban-board" },
+    { label: "Personal Task Flow", href: "/personal-task-management" },
+    { label: "Team Sprint Board", href: "/sprint-management" },
+    { label: "Workflow Automations", href: "/workflow-automation" },
+  ],
+  Solutions: [
+    { label: "Small Teams", href: "/team-task-management" },
+    { label: "For Managers", href: "/team-task-management" },
+    { label: "For Individuals", href: "/personal-task-management" },
+    { label: "For Remote Teams", href: "/remote-team-task-management" },
+    { label: "Team Workload", href: "/team-workload-management" },
+  ],
+  Resources: [
+    { label: "Productivity Blog", href: "/blog" },
+    { label: "Agile Guides", href: "/guides" },
+    { label: "How It Works", href: "/how-it-works" },
+    { label: "Competitor Comparisons", href: "/compare" },
+    { label: "Workflow Templates", href: "/guides#templates" },
+  ],
+  Company: [
+    { label: "About SprintDesk", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
+  ],
+  Comparisons: [
+    { label: "SprintDesk vs Trello", href: "/compare/sprintdesk-vs-trello" },
+    { label: "SprintDesk vs Asana", href: "/compare/sprintdesk-vs-asana" },
+    { label: "SprintDesk vs ClickUp", href: "/compare/sprintdesk-vs-clickup" },
+    { label: "All Comparisons", href: "/compare" },
+  ],
+};
 
 export function Footer() {
   return (
-    <footer className="bg-[#0D2440] text-white border-t border-[#1E3A5F]">
-      <Container size="default" className="pt-16 pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12 mb-16">
-          {/* Brand Col */}
-          <div className="col-span-2 md:col-span-1 pr-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-[#163359] border border-[#2E5E99]/60">
-                <Image
-                  src="/sd-logo.png"
-                  alt="SprintDesk"
-                  width={32}
-                  height={32}
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-heading font-bold text-xl tracking-tight text-white">
-                Sprint<span className="text-[#7BA4D0]">Desk</span>
-              </span>
+    <footer className="bg-[#0D2440] text-white border-t border-[#1E3A5F] pt-16 pb-12">
+      <Container size="default">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-8 mb-12">
+          {/* Brand Info (3 cols) */}
+          <div className="col-span-2 md:col-span-3 space-y-4">
+            <Link href="/" className="inline-flex items-center gap-2 group" aria-label="SprintDesk Home">
+              <Image
+                src="/brand/sprintdesk-logo.png"
+                alt="SprintDesk"
+                width={150}
+                height={32}
+                className="h-8 w-auto object-contain brightness-0 invert transition-opacity duration-200 group-hover:opacity-90"
+              />
             </Link>
-            <p className="text-xs text-[#7BA4D0] leading-relaxed mb-4">
-              Where personal focus meets team velocity. Capture ideas instantly, eliminate status chasing, and deliver sprints with predictable clarity.
+            <p className="text-xs text-[#CBD6E2] max-w-sm leading-relaxed">
+              SprintDesk bridges personal task management and team sprint execution in one unified, automated workspace.
             </p>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#163359] border border-[#2E5E99]/40 text-[11px] text-[#E7F0FA]">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              All Systems Operational
+            <div className="text-[11px] font-mono text-[#7BA4D0]">
+              Where Personal Focus Meets Team Velocity.
             </div>
           </div>
 
-          {/* Nav Columns */}
-          {footerColumns.map((col) => (
-            <div key={col.title}>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#7BA4D0] mb-4">
-                {col.title}
-              </h4>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-xs text-slate-300 hover:text-white hover:underline transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Links Columns (9 cols across 5 columns) */}
+          <div className="col-span-2 md:col-span-9 grid grid-cols-2 sm:grid-cols-5 gap-6">
+            {Object.entries(footerSections).map(([category, links]) => (
+              <div key={category}>
+                <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#7BA4D0] mb-3">
+                  {category}
+                </div>
+                <ul className="space-y-2 text-xs text-[#CBD6E2]">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="hover:text-white transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 border-t border-[#1E3A5F] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7BA4D0]">
-          <p>© {new Date().getFullYear()} SprintDesk Technologies Inc. All rights reserved.</p>
+        {/* Bottom copyright row - INC & DUPLICATE CONTACT REMOVED */}
+        <div className="pt-8 border-t border-[#1E3A5F] flex flex-col sm:flex-row items-center justify-between text-xs text-[#7BA4D0] gap-4">
+          <div>
+            &copy; {new Date().getFullYear()} SprintDesk. All rights reserved.
+          </div>
           <div className="flex items-center gap-6">
-            <span>SOC-2 Type II Certified</span>
-            <span>256-bit AES Encryption</span>
-            <span>GDPR Compliant</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <Link href="/security" className="hover:text-white transition-colors">Security</Link>
           </div>
         </div>
       </Container>

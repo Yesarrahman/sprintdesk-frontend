@@ -1,154 +1,82 @@
-"use client";
-
-import * as React from "react";
-import { Zap, Check, ArrowRight, Play, RefreshCw } from "lucide-react";
+import { Zap, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { GsapReveal, GsapScale } from "@/components/marketing/gsap-effects";
 
 export function AutomationSection() {
-  const [isTriggered, setIsTriggered] = React.useState(false);
-  const [status, setStatus] = React.useState("Todo");
-  const [priority, setPriority] = React.useState("Medium");
-  const [assignee, setAssignee] = React.useState("Alex Morgan");
-
-  const runTest = () => {
-    setIsTriggered(true);
-    setStatus("In Review");
-    setTimeout(() => {
-      setPriority("High");
-      setAssignee("Engineering Lead");
-    }, 400);
-  };
-
-  const resetTest = () => {
-    setIsTriggered(false);
-    setStatus("Todo");
-    setPriority("Medium");
-    setAssignee("Alex Morgan");
-  };
-
   return (
-    <section className="py-24 sm:py-32 bg-[#F5F8FB] border-t border-[#CBD6E2]/70">
+    <section className="py-20 sm:py-28 bg-white border-t border-[#CBD6E2]/40">
       <Container size="default">
-        {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#2E5E99] mb-3">
-            Event-Driven Engine
+        {/* Section Header */}
+        <GsapReveal className="max-w-3xl mx-auto text-center mb-16">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#2E5E99] mb-2">
+            NO-CODE AUTOMATIONS
           </div>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#0D2440] mb-5">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#0D2440] mb-4">
             Let your workflow handle the repetitive work.
           </h2>
           <p className="text-base text-[#5F7083] leading-relaxed">
-            Eliminate mundane ticket bureaucracy. Build deterministic no-code rules that automatically route tasks, escalate blockers, and ping stakeholders when conditions trigger.
+            Eliminate manual status chasing. Create simple trigger-based rules that automatically route tasks, escalate priorities, and assign leads when conditions are met.
           </p>
-        </div>
+        </GsapReveal>
 
-        {/* Interactive Automation Builder UI */}
-        <div className="max-w-4xl mx-auto rounded-2xl border border-[#CBD6E2] bg-white p-6 sm:p-10 shadow-xl">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[#CBD6E2]">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#E7F0FA] text-[#2E5E99] flex items-center justify-center font-bold">
-                <Zap className="w-4 h-4" />
-              </div>
-              <span className="font-bold text-sm text-[#0D2440]">
-                Rule: Auto-Triage Critical Reviews
-              </span>
-            </div>
+        {/* Real Rule Builder Visual matching screenshot & app automations */}
+        <GsapScale className="max-w-4xl mx-auto rounded-2xl border border-[#CBD6E2] bg-[#F5F8FB] p-6 sm:p-10 shadow-sm">
+          <div className="flex items-center justify-between pb-4 mb-8 border-b border-[#CBD6E2]/60">
             <div className="flex items-center gap-2">
-              <Badge variant="success" className="text-xs">
-                AUTOMATION ACTIVE ✓
-              </Badge>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#23865A]" />
+              <span className="text-xs font-bold text-[#0D2440]">Sprint Rule #04 • Active</span>
+            </div>
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded bg-white text-[#5F7083] border border-[#CBD6E2]">
+              Auto-Execute
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            {/* Step 1: WHEN */}
+            <div className="p-4 rounded-xl bg-white border border-[#CBD6E2] shadow-2xs space-y-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#7BA4D0]">
+                1. TRIGGER
+              </div>
+              <div className="text-xs font-bold text-[#0D2440]">
+                Task Status moves to:
+              </div>
+              <div className="inline-block px-2.5 py-1 rounded bg-amber-50 border border-amber-200 text-xs font-semibold text-amber-700">
+                In Review
+              </div>
+            </div>
+
+            {/* Step 2: THEN */}
+            <div className="p-4 rounded-xl bg-white border border-[#CBD6E2] shadow-2xs space-y-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#7BA4D0]">
+                2. CONDITION
+              </div>
+              <div className="text-xs font-bold text-[#0D2440]">
+                Change Priority:
+              </div>
+              <div className="inline-block px-2.5 py-1 rounded bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+                High Priority (P1)
+              </div>
+            </div>
+
+            {/* Step 3: AND */}
+            <div className="p-4 rounded-xl bg-white border border-[#CBD6E2] shadow-2xs space-y-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#7BA4D0]">
+                3. ACTION
+              </div>
+              <div className="text-xs font-bold text-[#0D2440]">
+                Assign Team Member:
+              </div>
+              <div className="inline-block px-2.5 py-1 rounded bg-[#E7F0FA] border border-[#7BA4D0]/40 text-xs font-semibold text-[#2E5E99]">
+                Project Manager
+              </div>
             </div>
           </div>
 
-          {/* Rule Flow Blocks */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {/* Block 1: WHEN */}
-            <div className="p-4 rounded-xl bg-[#F5F8FB] border border-[#CBD6E2] flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] font-mono font-bold uppercase text-[#2E5E99] tracking-wider">
-                  01 • TRIGGER
-                </span>
-                <div className="text-xs font-bold text-[#0D2440] mt-1 mb-2">WHEN Task Status</div>
-                <div className="p-2 rounded bg-white border border-[#CBD6E2] text-xs font-mono text-[#0D2440]">
-                  changes to <strong className="text-[#2E5E99]">In Review</strong>
-                </div>
-              </div>
-            </div>
-
-            {/* Block 2: THEN */}
-            <div className="p-4 rounded-xl bg-[#F5F8FB] border border-[#CBD6E2] flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] font-mono font-bold uppercase text-[#7BA4D0] tracking-wider">
-                  02 • ACTION
-                </span>
-                <div className="text-xs font-bold text-[#0D2440] mt-1 mb-2">THEN Set Priority</div>
-                <div className="p-2 rounded bg-white border border-[#CBD6E2] text-xs font-mono text-[#0D2440]">
-                  update to <strong className="text-rose-600">High (P1)</strong>
-                </div>
-              </div>
-            </div>
-
-            {/* Block 3: AND */}
-            <div className="p-4 rounded-xl bg-[#F5F8FB] border border-[#CBD6E2] flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] font-mono font-bold uppercase text-[#7BA4D0] tracking-wider">
-                  03 • ACTION
-                </span>
-                <div className="text-xs font-bold text-[#0D2440] mt-1 mb-2">AND Reassign</div>
-                <div className="p-2 rounded bg-white border border-[#CBD6E2] text-xs font-mono text-[#0D2440]">
-                  assign to <strong className="text-[#0D2440]">Engineering Lead</strong>
-                </div>
-              </div>
-            </div>
+          <div className="mt-8 pt-4 border-t border-[#CBD6E2]/60 text-center text-xs text-[#5F7083] flex items-center justify-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#23865A]" />
+            <span>Executed seamlessly across active team workspaces without writing code</span>
           </div>
-
-          {/* Live Simulation Playground */}
-          <div className="p-4 sm:p-6 rounded-xl bg-[#0D2440] text-white flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="space-y-1 text-center sm:text-left">
-              <div className="text-xs text-[#7BA4D0] uppercase font-mono font-bold">
-                Live State Result
-              </div>
-              <div className="text-sm font-semibold">
-                Task #108: "Fix mobile navbar sticky transition"
-              </div>
-              <div className="flex flex-wrap items-center gap-3 text-xs pt-1">
-                <span className="text-[#CBD6E2]">
-                  Status: <strong className={isTriggered ? "text-amber-400" : "text-white"}>{status}</strong>
-                </span>
-                <span className="text-[#CBD6E2]">
-                  Priority: <strong className={isTriggered ? "text-rose-400" : "text-white"}>{priority}</strong>
-                </span>
-                <span className="text-[#CBD6E2]">
-                  Assignee: <strong className="text-[#7BA4D0]">{assignee}</strong>
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              {!isTriggered ? (
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={runTest}
-                  className="bg-[#2E5E99] hover:bg-[#3b74b8] text-white text-xs font-semibold px-4"
-                >
-                  <Play className="w-3 h-3 mr-1.5 fill-current" /> Fire Trigger
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={resetTest}
-                  className="bg-transparent text-white border-[#7BA4D0] hover:bg-[#163359] text-xs"
-                >
-                  <RefreshCw className="w-3 h-3 mr-1.5" /> Reset
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+        </GsapScale>
       </Container>
     </section>
   );

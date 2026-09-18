@@ -19,7 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/kanban-board",
     "/blog",
     "/guides",
-    "/templates",
     "/compare",
   ].map((route) => ({
     url: `${baseUrl}${route}`,

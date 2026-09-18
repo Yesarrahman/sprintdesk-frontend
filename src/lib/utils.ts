@@ -6,7 +6,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getAppUrl(path: string = ""): string {
-  const base = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const base = process.env.NEXT_PUBLIC_APP_URL || "https://sprint-desk.netlify.app";
+  if (!path) return `${base}/login`;
+  
+  const [pathname, search] = path.split("?");
+  const queryStr = search ? `?${search}` : "";
+
+  if (pathname === "/login" || pathname === "/signup" || pathname.startsWith("/signup")) {
+    return `${base}/login${queryStr}`;
+  }
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
   return `${base}${cleanPath}`;
 }

@@ -38,7 +38,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-        <link rel="icon" href="/sd-logo.png" />
+        <link rel="icon" type="image/png" href="/brand/sprintdesk-icon.png" />
+        <link rel="apple-touch-icon" href="/brand/sprintdesk-icon.png" />
       </head>
       <body className="min-h-screen bg-white text-[#0D1C2F] font-sans antialiased selection:bg-[#2E5E99] selection:text-white">
         {children}

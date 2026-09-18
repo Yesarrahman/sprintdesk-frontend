@@ -7,302 +7,302 @@ import {
   Clock,
   Layers,
   Users,
-  ShieldAlert,
+  AlertOctagon,
   Calendar,
   Zap,
   ArrowRight,
   CheckCircle2,
+  Filter,
+  Check,
+  TrendingUp,
 } from "lucide-react";
 import { Navbar } from "@/components/marketing/navbar";
 import { Footer } from "@/components/marketing/footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { constructMetadata, generateSoftwareApplicationSchema } from "@/lib/seo";
+import { constructMetadata } from "@/lib/seo";
 import { getAppUrl } from "@/lib/utils";
+import { KanbanMotionBoard } from "@/components/marketing/kanban-motion-board";
+import { AutomationRuleBuilder } from "@/components/marketing/automation-rule-builder";
+import { CapacityCalculator } from "@/components/marketing/capacity-calculator";
 
 export const metadata: Metadata = constructMetadata({
   title: "Features — End-to-End Task & Sprint Architecture",
   description:
-    "Explore SprintDesk's complete product capabilities: Capture Inbox, Personal Task Flow, Team Sprint Board, Command Center, and No-Code Automations.",
+    "Explore SprintDesk's complete product capabilities across all 7 outcomes: Capture, Triage, Focus, Execute, Monitor, Plan, and Automate.",
   canonicalUrl: "/features",
 });
 
-const featuresList = [
+const outcomeSections = [
   {
     id: "capture",
-    category: "FEATURE CATEGORY 01",
+    num: "01",
     phase: "CAPTURE",
     headline: "Catch work before it disappears.",
-    subheadline: "Zero-friction inbox for raw thoughts, incoming requests, and technical reminders.",
+    subheadline: "Zero-friction capture inbox for raw thoughts, incoming requests, and technical reminders.",
     description:
-      "Great ideas don't arrive scheduled in backlog grooming. Capture Inbox lets you log ideas via global hotkeys, webhooks, or mobile in under two seconds. No forced fields, no dropdowns, no friction.",
+      "Great ideas don't arrive during scheduled backlog grooming. Capture Inbox lets you log thoughts via global hotkeys in under two seconds. No mandatory dropdowns, no friction.",
     bullets: [
-      "Global shortcut captures text, links, and code snippets in milliseconds",
-      "Unorganized queue holds thoughts safely until your scheduled triage window",
-      "Automatic deduplication prevents redundant backlog noise",
+      "Global shortcut captures text, code snippets, and PR links instantly",
+      "Unorganized queue safely holds thoughts until your daily triage window",
+      "Prevents half-baked personal scratchpad notes from polluting team boards",
     ],
-    uiTag: "Capture Inbox",
-    uiMetric: "Average capture speed: 1.4s",
-    mockupType: "inbox",
+    badgeText: "Average capture speed: 1.4s",
+    linkText: "Explore Personal Flow →",
+    href: "/personal-task-management",
   },
   {
     id: "triage",
-    category: "FEATURE CATEGORY 02",
+    num: "02",
     phase: "TRIAGE",
     headline: "Decide where the work belongs.",
     subheadline: "One-click context routing from unstructured ideas to organized execution.",
     description:
-      "Review your raw inbox on your terms. With one keystroke, route an item to your private Personal Flow for confidential focus, or promote it to a Team Sprint Board with story points and an assigned epic.",
+      "Review your raw inbox on your terms. With one click, route an item to your private Personal Flow for focused execution, or promote it to a Team Sprint Board with story points and an assigned epic.",
     bullets: [
-      "Choose destination: Personal Space vs. Team Workspace",
-      "Assign story points (1, 2, 3, 5, 8) and target sprint milestone",
-      "Keep collaborative boards clean from half-baked personal notes",
+      "Route between Personal Workspace and Team Workspace instantly",
+      "Attach Fibonacci story points (1, 2, 3, 5, 8) and target milestone",
+      "Keep collaborative sprint boards clean and calibrated",
     ],
-    uiTag: "Triage Engine",
-    uiMetric: "1-Click Routing",
-    mockupType: "triage",
+    badgeText: "1-Click Triage Routing",
+    linkText: "Learn How Triage Works →",
+    href: "/how-it-works",
   },
   {
     id: "focus",
-    category: "FEATURE CATEGORY 03",
+    num: "03",
     phase: "FOCUS",
     headline: "Keep personal work personal.",
     subheadline: "Deep work sanctuary with automated daily finish-line calculations.",
     description:
-      "Engineers and individual contributors deserve a calm, unmonitored space to organize their daily output. Personal Task Flow isolates your critical tasks, integrates your calendar commitments, and dynamically updates your estimated workday finish time.",
+      "Individual engineers and contributors deserve an unmonitored space to organize their daily output. Personal Task Flow isolates your critical tasks and calculates your estimated workday finish time.",
     bullets: [
-      "Dynamic Finish Line engine updates automatically as tasks complete",
-      "Private checklists that teammates and managers don't need to see",
-      "Pomodoro and deep-work timers tied directly to task cards",
+      "Finish Line engine dynamically updates as you complete planned tasks",
+      "Private checklists that managers and clients don't need to see",
+      "Integrated daily schedule connecting tasks to calendar blocks",
     ],
-    uiTag: "Personal Workspace",
-    uiMetric: "Finish Line: 5:40 PM",
-    mockupType: "personal",
+    badgeText: "Finish Line: 5:40 PM",
+    linkText: "See Personal Task Flow →",
+    href: "/personal-task-management",
   },
   {
     id: "execute",
-    category: "FEATURE CATEGORY 04",
+    num: "04",
     phase: "EXECUTE",
     headline: "Turn individual tasks into team momentum.",
     subheadline: "Agile sprint boards engineered for clarity, speed, and real story velocity.",
     description:
-      "When work requires coordination, SprintDesk's Team Sprint Board gives everyone total alignment. Swimlanes group work by engineer or epic, story points track real effort, and cards update in real time across the team.",
+      "When work requires coordination, SprintDesk gives everyone total alignment. Swimlanes group work by developer or epic, story points track real complexity, and board state updates in real time.",
     bullets: [
       "Flexible views: Standard Kanban column view or Assignee Swimlanes",
       "Story points tracking with automated burndown projection",
       "PR and commit linking via native GitHub and GitLab webhooks",
     ],
-    uiTag: "Sprint Board",
-    uiMetric: "Sprint 42 • 78% Done",
-    mockupType: "team",
+    badgeText: "Sprint 24 • 78% Done",
+    linkText: "Explore Team Sprint Boards →",
+    href: "/sprint-management",
   },
   {
     id: "monitor",
-    category: "FEATURE CATEGORY 05",
+    num: "05",
     phase: "MONITOR",
     headline: "See what's moving — and what's stuck.",
-    subheadline: "Team Command Center eliminates status meetings and uncovers hidden blockers.",
+    subheadline: "Command Center visibility that eliminates afternoon status sync meetings.",
     description:
-      "Engineering leaders get instant visibility without interrogating developers. Command Center aggregates active velocity, individual workload distribution, and blocker alerts in a single visual console.",
+      "Managers and team leads get instant clarity on active work, blocker alerts, and workload distribution without interrupting developers.",
     bullets: [
-      "Workload balance radar reveals over-allocated and under-allocated engineers",
-      "Automated blocker alerts ping the channel when a card is stalled >24 hours",
-      "Live activity stream logs deployments, reviews, and card movements",
+      "Real-time velocity tracking comparing commitments against actual output",
+      "Open blocker radar highlights stalled tickets before Friday reviews",
+      "Workload capacity bars prevent developer overload and burnout",
     ],
-    uiTag: "Command Center",
-    uiMetric: "+18% Velocity Trend",
-    mockupType: "monitor",
+    badgeText: "+18% Team Velocity",
+    linkText: "See Workload Management →",
+    href: "/team-workload-management",
   },
   {
     id: "plan",
-    category: "FEATURE CATEGORY 06",
+    num: "06",
     phase: "PLAN",
-    headline: "See the work ahead before it becomes urgent.",
-    subheadline: "Visual calendar mapping milestones, release schedules, and task due dates.",
+    headline: "See the work ahead.",
+    subheadline: "Integrated calendar for milestone scheduling and deadline awareness.",
     description:
-      "Connect your sprint milestones directly to real-world calendar deadlines. Drag-and-drop tasks to balance workloads across weeks and prevent end-of-quarter release crunches.",
+      "Never get blindsided by release dates. The interactive visual calendar overlays sprint milestones, release freezes, and personal commitments in one timeline.",
     bullets: [
-      "Monthly and weekly timeline views with multi-day task spanning",
-      "Google Calendar and Outlook two-way sync for meeting buffers",
-      "Sprint release milestone markers with automatic deadline warnings",
+      "Monthly and weekly views showing task milestones and dependencies",
+      "Drag-and-drop deadline rescheduling that auto-notifies assignees",
+      "Two-way synchronization with Google Calendar and Outlook",
     ],
-    uiTag: "Calendar Schedule",
-    uiMetric: "Synchronized Sync",
-    mockupType: "calendar",
+    badgeText: "Interactive Milestone Calendar",
+    linkText: "Tour How It Works →",
+    href: "/how-it-works",
   },
   {
     id: "automate",
-    category: "FEATURE CATEGORY 07",
+    num: "07",
     phase: "AUTOMATE",
     headline: "Stop manually managing predictable work.",
-    subheadline: "Deterministic If-This-Then-That rule builder for zero-overhead triage.",
+    subheadline: "Visual no-code rule builder for automated task routing and status updates.",
     description:
-      "Configure automated rules in plain English: When a PR is opened, move task to 'In Review'. When marked 'Urgent', notify the technical lead. When completed, archive subtasks and recalculate sprint velocity.",
+      "Build powerful If-This-Then-That rules in seconds. Automatically change priorities, assign reviewers, and notify channels when task criteria are satisfied.",
     bullets: [
-      "Visual rule builder requires zero coding or webhook maintenance",
-      "Cross-workspace triggers (e.g. personal task completion updates team epic)",
-      "Instant Slack and Discord alerts with action buttons directly in chat",
+      "Trigger rules on column change, label addition, or blocker flags",
+      "Auto-assign technical leads when tickets enter Review stage",
+      "Zero coding required — intuitive visual builder anyone can configure",
     ],
-    uiTag: "Automation Engine",
-    uiMetric: "Rules Active ✓",
-    mockupType: "automate",
+    badgeText: "No-Code Rule Engine",
+    linkText: "See Workflow Automations →",
+    href: "/workflow-automation",
   },
 ];
 
 export default function FeaturesPage() {
-  const schema = generateSoftwareApplicationSchema();
-
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
       <Navbar />
 
       <main className="flex-1 pt-32 pb-24 md:pt-40">
-        {/* Features Hero */}
-        <section className="relative pb-20 border-b border-[#CBD6E2]/40 bg-gradient-to-b from-[#F5F8FB] to-white">
+        {/* Hero Section */}
+        <section className="pb-16 text-center">
           <Container size="default">
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E7F0FA] border border-[#7BA4D0]/40 text-xs font-semibold uppercase tracking-wider text-[#0D2440] mb-6">
-                <Sparkles className="w-3.5 h-3.5 text-[#2E5E99]" />
-                <span>Everything Connected</span>
+            <div className="max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E7F0FA] border border-[#CBD6E2] text-xs font-mono font-bold uppercase tracking-wider text-[#2E5E99] mb-6">
+                <Sparkles className="w-3.5 h-3.5" /> Complete Product Capabilities
               </div>
               <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#0D2440] mb-6">
                 One workspace for every stage of the work.
               </h1>
-              <p className="text-base sm:text-lg text-[#5F7083] leading-relaxed mb-8">
-                From the first unorganized thought to coordinated team delivery, SprintDesk connects personal focus and team execution into a continuous, automation-driven workflow.
+              <p className="text-base sm:text-lg text-[#5F7083] leading-relaxed mb-8 max-w-2xl mx-auto">
+                From the first unorganized thought to the final sprint release, SprintDesk keeps personal focus and team velocity seamlessly connected.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <Button variant="pill-primary" size="lg" href={getAppUrl("/signup")}>
-                  Start Free Trial →
+                <Button variant="pill-primary" size="lg" href={getAppUrl("/signup")} className="font-bold">
+                  Start Free Workspace →
                 </Button>
                 <Button variant="outline" size="lg" href="/how-it-works">
-                  See The 60-Second Tour
+                  See How It Works
                 </Button>
               </div>
             </div>
           </Container>
         </section>
 
-        {/* Answer Engine Callout Block (AEO) */}
-        <section className="py-8 bg-[#F5F8FB] border-b border-[#CBD6E2]/60">
-          <Container size="narrow">
-            <div className="p-4 rounded-xl bg-white border border-[#CBD6E2] text-xs leading-relaxed text-[#0D2440]">
-              <strong className="text-[#2E5E99] uppercase font-bold block mb-1">
-                The SprintDesk Architecture at a Glance
-              </strong>
-              SprintDesk replaces tool fragmentation by unifying 7 capabilities in one database: Quick Capture, Context Triage, Personal Task Flow, Team Sprint Board, Command Center, Calendar Scheduling, and No-Code Automations. This enables individual contributors to retain private focus while keeping engineering managers updated in real time.
+        {/* Live Interactive Kanban Simulator Showcase */}
+        <section className="py-12 bg-[#F8FAFC] border-t border-b border-[#CBD6E2]/70">
+          <Container size="default">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#2E5E99] mb-2">
+                Live Interactive Experience
+              </div>
+              <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#0D2440]">
+                Experience sprint velocity in real time
+              </h2>
+              <p className="text-xs sm:text-sm text-[#5F7083] mt-2">
+                Click any task card below to advance it across sprint stages and watch velocity recalculate dynamically.
+              </p>
+            </div>
+            <div className="max-w-5xl mx-auto">
+              <KanbanMotionBoard />
             </div>
           </Container>
         </section>
 
-        {/* Feature Categories Stack */}
-        <section className="py-20 sm:py-28">
+        {/* 7 Outcome Sections */}
+        <section className="py-20 bg-white">
           <Container size="default">
-            <div className="space-y-28">
-              {featuresList.map((feat, idx) => {
-                const isEven = idx % 2 === 0;
+            <div className="space-y-24 max-w-5xl mx-auto">
+              {outcomeSections.map((item, index) => {
+                const isEven = index % 2 === 1;
+
                 return (
                   <div
-                    key={feat.id}
-                    id={feat.id}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+                    key={item.id}
+                    id={item.id}
+                    className={`flex flex-col lg:flex-row items-center gap-10 lg:gap-14 ${
+                      isEven ? "lg:flex-row-reverse" : ""
+                    }`}
                   >
-                    {/* Text column */}
-                    <div
-                      className={`lg:col-span-6 space-y-6 ${
-                        isEven ? "lg:order-1" : "lg:order-2"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#2E5E99] bg-[#E7F0FA] px-2.5 py-1 rounded-md">
-                          {feat.category}
+                    {/* Left: Text & Details */}
+                    <div className="flex-1 space-y-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-mono font-bold text-[#2E5E99] bg-[#E7F0FA] px-2 py-0.5 rounded">
+                          OUTCOME {item.num}
                         </span>
-                        <span className="text-xs font-bold text-[#5F7083] uppercase tracking-wider">
-                          Phase: {feat.phase}
+                        <span className="text-xs font-mono uppercase text-[#7BA4D0] font-bold tracking-wider">
+                          {item.phase}
                         </span>
                       </div>
-
-                      <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-[#0D2440] tracking-tight">
-                        {feat.headline}
-                      </h2>
-
-                      <p className="text-sm sm:text-base font-medium text-[#2E5E99]">
-                        {feat.subheadline}
+                      <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#0D2440] leading-tight">
+                        {item.headline}
+                      </h3>
+                      <p className="text-sm font-semibold text-[#2E5E99]">
+                        {item.subheadline}
                       </p>
-
                       <p className="text-xs sm:text-sm text-[#5F7083] leading-relaxed">
-                        {feat.description}
+                        {item.description}
                       </p>
-
-                      <ul className="space-y-3 pt-2">
-                        {feat.bullets.map((bullet, i) => (
-                          <li key={i} className="flex items-start gap-3 text-xs text-[#0D2440]">
-                            <div className="w-4 h-4 rounded-full bg-[#E7F0FA] text-[#2E5E99] flex items-center justify-center shrink-0 mt-0.5">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
-                            </div>
-                            <span>{bullet}</span>
+                      <ul className="space-y-2 pt-2">
+                        {item.bullets.map((b, bi) => (
+                          <li key={bi} className="flex items-start gap-2 text-xs text-[#0D2440]">
+                            <CheckCircle2 className="w-4 h-4 text-[#2E5E99] shrink-0 mt-0.5" />
+                            <span>{b}</span>
                           </li>
                         ))}
                       </ul>
-
                       <div className="pt-4">
                         <Link
-                          href={`/${feat.id === "focus" ? "personal-task-management" : feat.id === "execute" ? "sprint-management" : feat.id === "monitor" ? "team-workload-management" : feat.id === "automate" ? "workflow-automation" : "how-it-works"}`}
-                          className="inline-flex items-center gap-2 text-xs font-bold text-[#2E5E99] hover:underline"
+                          href={item.href}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2E5E99] hover:text-[#0D2440] hover:underline"
                         >
-                          <span>Deep dive into {feat.phase} workflows</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          {item.linkText}
                         </Link>
                       </div>
                     </div>
 
-                    {/* Visual Mockup column */}
-                    <div
-                      className={`lg:col-span-6 ${
-                        isEven ? "lg:order-2" : "lg:order-1"
-                      }`}
-                    >
-                      <div className="rounded-2xl border border-[#CBD6E2] bg-[#F5F8FB] p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#CBD6E2]">
-                          <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-[#CBD6E2]" />
-                            <span className="w-3 h-3 rounded-full bg-[#CBD6E2]" />
-                            <span className="w-3 h-3 rounded-full bg-[#CBD6E2]" />
-                            <span className="ml-2 text-xs font-mono font-bold text-[#0D2440]">
-                              {feat.uiTag}
+                    {/* Right: Feature Specific Visual Card */}
+                    <div className="flex-1 w-full">
+                      {item.id === "execute" ? (
+                        <div className="p-5 rounded-2xl border border-[#CBD6E2] bg-white shadow-lg">
+                          <div className="flex items-center justify-between text-xs font-mono font-bold text-[#2E5E99] mb-3 pb-2 border-b border-slate-100">
+                            <span>Team Sprint Board</span>
+                            <span className="text-emerald-600 font-semibold">Active Velocity</span>
+                          </div>
+                          <div className="space-y-2.5">
+                            <div className="p-3 rounded-xl bg-[#F8FAFC] border border-slate-200 text-xs">
+                              <div className="flex justify-between font-bold text-[#0D2440]">
+                                <span>SD-104: OAuth Token Refresh</span>
+                                <span className="text-[#2E5E99] font-mono">3 SP</span>
+                              </div>
+                              <div className="text-[11px] text-[#5F7083] mt-1">Assignee: Alex M. • Ready for QA</div>
+                            </div>
+                            <div className="p-3 rounded-xl bg-[#F8FAFC] border border-slate-200 text-xs">
+                              <div className="flex justify-between font-bold text-[#0D2440]">
+                                <span>SD-118: Assignee Swimlanes</span>
+                                <span className="text-[#2E5E99] font-mono">5 SP</span>
+                              </div>
+                              <div className="text-[11px] text-[#5F7083] mt-1">Assignee: Sarah C. • In Progress</div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : item.id === "automate" ? (
+                        <AutomationRuleBuilder />
+                      ) : (
+                        <div className="rounded-2xl border border-[#CBD6E2] bg-[#F8FAFC] p-6 shadow-md">
+                          <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-200 text-xs font-mono font-bold">
+                            <span className="text-[#0D2440]">{item.headline}</span>
+                            <span className="text-[#2E5E99] bg-[#E7F0FA] px-2 py-0.5 rounded">
+                              {item.badgeText}
                             </span>
                           </div>
-                          <Badge variant="sapphire" className="text-[11px]">
-                            {feat.uiMetric}
-                          </Badge>
-                        </div>
-
-                        {/* Interactive Widget Box */}
-                        <div className="rounded-xl bg-white border border-[#CBD6E2] p-5 shadow-xs font-mono text-xs space-y-3">
-                          <div className="text-[11px] text-[#5F7083] uppercase font-bold tracking-wider">
-                            Active State Simulator
-                          </div>
-                          <div className="p-3 rounded-lg bg-[#0D2440] text-white">
-                            <div className="text-emerald-400 text-[11px] mb-1">✓ Active Component</div>
-                            <div className="text-xs font-sans font-semibold">
-                              Task: "Implement {feat.phase.toLowerCase()} optimization"
-                            </div>
-                            <div className="flex items-center gap-3 text-[10px] text-[#7BA4D0] mt-2">
-                              <span>Priority: High</span>
-                              <span>Context: {feat.phase}</span>
-                              <span>Status: Connected</span>
-                            </div>
-                          </div>
-                          <p className="text-[11px] text-[#5F7083] font-sans">
-                            Instant synchronization across all team members and connected GitHub/Slack integrations.
+                          <p className="text-xs text-[#5F7083] leading-relaxed">
+                            {item.description}
                           </p>
+                          <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-[#2E5E99]">
+                            <span>Status: Verified Active</span>
+                            <span>Sub-50ms sync</span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -311,33 +311,32 @@ export default function FeaturesPage() {
           </Container>
         </section>
 
-        {/* Final Conversion CTA */}
-        <section className="py-20 bg-[#0D2440] text-white">
-          <Container size="default" className="text-center max-w-3xl mx-auto">
-            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-white tracking-tight mb-4">
+        {/* Capacity Calculator Section */}
+        <section className="py-16 bg-[#F8FAFC] border-t border-b border-[#CBD6E2]/70">
+          <Container size="default">
+            <div className="max-w-4xl mx-auto">
+              <CapacityCalculator />
+            </div>
+          </Container>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-20 bg-[#0D2440] text-white text-center">
+          <Container size="narrow">
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl mb-4 text-white">
               Everything connected. Nothing lost.
             </h2>
-            <p className="text-sm sm:text-base text-[#CBD6E2] mb-8 leading-relaxed">
-              Join thousands of engineers, designers, and managers who have eliminated tool fatigue with SprintDesk.
+            <p className="text-sm sm:text-base text-[#CBD6E2] mb-8 max-w-xl mx-auto">
+              Start planning work with clarity, protecting personal focus, and moving sprints forward together.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                variant="primary"
-                size="lg"
-                href={getAppUrl("/signup")}
-                className="bg-[#2E5E99] hover:bg-[#3d72b5] text-white w-full sm:w-auto"
-              >
-                Start Free Trial →
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                href="/pricing"
-                className="bg-transparent border-[#7BA4D0] text-white hover:bg-[#163359] w-full sm:w-auto"
-              >
-                View Pricing Plans
-              </Button>
-            </div>
+            <Button
+              variant="pill-primary"
+              size="lg"
+              href={getAppUrl("/signup")}
+              className="bg-[#2E5E99] hover:bg-[#3D78BE] text-white px-8 font-bold"
+            >
+              Start Free Today <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
           </Container>
         </section>
       </main>

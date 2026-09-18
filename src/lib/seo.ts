@@ -7,7 +7,7 @@ export const siteConfig = {
     "SprintDesk bridges personal task management and team sprint execution in one unified workspace. Capture ideas instantly, eliminate context switching, and calculate realistic finish times.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://sprintdesk.com",
   appUrl: process.env.NEXT_PUBLIC_APP_URL || "https://app.sprintdesk.com",
-  ogImage: "/sd-logo.png",
+  ogImage: "/logo.png",
   links: {
     twitter: "https://twitter.com/sprintdesk",
     github: "https://github.com/sprintdesk",

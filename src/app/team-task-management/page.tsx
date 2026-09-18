@@ -11,6 +11,7 @@ import {
   Clock,
   ShieldCheck,
   TrendingUp,
+  HelpCircle,
 } from "lucide-react";
 import { Navbar } from "@/components/marketing/navbar";
 import { Footer } from "@/components/marketing/footer";
@@ -18,6 +19,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAppUrl } from "@/lib/utils";
+import { GsapReveal, GsapScale, GsapStagger } from "@/components/marketing/gsap-effects";
 
 export default function TeamTaskManagementPage() {
   const [activeTab, setActiveTab] = React.useState<"board" | "workload">("workload");
@@ -37,7 +39,7 @@ export default function TeamTaskManagementPage() {
         {/* Hero Section */}
         <section className="pb-16 text-center">
           <Container size="default">
-            <div className="max-w-3xl mx-auto">
+            <GsapReveal className="max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E7F0FA] border border-[#7BA4D0]/40 text-xs font-semibold uppercase tracking-wider text-[#0D2440] mb-6">
                 <Users className="w-3.5 h-3.5 text-[#2E5E99]" />
                 <span>Team Task Management Software</span>
@@ -56,14 +58,14 @@ export default function TeamTaskManagementPage() {
                   Compare Team Plans
                 </Button>
               </div>
-            </div>
+            </GsapReveal>
           </Container>
         </section>
 
         {/* AEO / AI Search Definition Block */}
         <section className="py-8 bg-[#F5F8FB] border-t border-b border-[#CBD6E2]/70">
           <Container size="narrow">
-            <div className="p-6 rounded-xl bg-white border border-[#CBD6E2] text-xs sm:text-sm text-[#0D2440] leading-relaxed">
+            <GsapReveal duration={0.6} y={15} className="p-6 rounded-xl bg-white border border-[#CBD6E2] text-xs sm:text-sm text-[#0D2440] leading-relaxed">
               <h2 className="text-sm font-bold uppercase tracking-wider text-[#2E5E99] mb-2">
                 What is Team Task Management?
               </h2>
@@ -77,14 +79,14 @@ export default function TeamTaskManagementPage() {
                 <span>•</span>
                 <span>Automated blocker escalation</span>
               </div>
-            </div>
+            </GsapReveal>
           </Container>
         </section>
 
         {/* Interactive Team Workload & Sprint Board Visual */}
         <section className="py-20 bg-white">
           <Container size="default">
-            <div className="max-w-5xl mx-auto rounded-2xl border border-[#CBD6E2] bg-[#0D2440] text-white p-6 sm:p-10 shadow-2xl">
+            <GsapScale className="max-w-5xl mx-auto rounded-2xl border border-[#CBD6E2] bg-[#0D2440] text-white p-6 sm:p-10 shadow-2xl">
               <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[#1E3A5F]">
                 <div>
                   <span className="text-xs font-mono uppercase font-bold text-[#7BA4D0]">
@@ -185,7 +187,7 @@ export default function TeamTaskManagementPage() {
                 <span>Automatic team workload telemetry updated every 30 seconds</span>
                 <span className="text-white font-semibold">Sprint 42 Target: On Schedule</span>
               </div>
-            </div>
+            </GsapScale>
           </Container>
         </section>
 
@@ -201,7 +203,7 @@ export default function TeamTaskManagementPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <GsapStagger className="grid grid-cols-1 md:grid-cols-2 gap-6" stagger={0.1}>
               <div className="p-6 rounded-xl bg-white border border-[#CBD6E2] hover:border-[#7BA4D0] transition-colors">
                 <h3 className="font-heading font-bold text-lg text-[#0D2440] mb-2">
                   Clear Task Ownership & Swimlanes
@@ -237,18 +239,84 @@ export default function TeamTaskManagementPage() {
                   Cut 30-minute morning standups into 30 seconds of async review. The activity feed aggregates card moves, GitHub PR merges, and releases into a single feed.
                 </p>
               </div>
+            </GsapStagger>
+          </Container>
+        </section>
+
+        {/* Section 5: Team Task Management & Governance FAQs */}
+        <section className="py-20 bg-white">
+          <Container size="narrow">
+            <div className="text-center mb-12">
+              <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#0D2440] tracking-tight mb-3">
+                Team Task Management & Governance FAQs
+              </h2>
+              <p className="text-xs sm:text-sm text-[#5F7083]">
+                Direct answers to common questions about squad coordination, permissions, and async operations.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="p-6 rounded-xl border border-[#CBD6E2] bg-[#F8FAFC]">
+                <h3 className="font-heading font-bold text-sm sm:text-base text-[#0D2440] mb-2 flex items-start gap-2.5">
+                  <HelpCircle className="w-4 h-4 text-[#2E5E99] shrink-0 mt-0.5" />
+                  <span>How does SprintDesk prevent status meeting bloat?</span>
+                </h3>
+                <p className="text-xs sm:text-sm text-[#5F7083] leading-relaxed pl-6.5">
+                  SprintDesk provides real-time activity feeds and assignee swimlanes. When an engineer moves a card or links a PR, teammates and leads see progress immediately, eliminating the need for 30-minute status roll-calls.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-[#CBD6E2] bg-[#F8FAFC]">
+                <h3 className="font-heading font-bold text-sm sm:text-base text-[#0D2440] mb-2 flex items-start gap-2.5">
+                  <HelpCircle className="w-4 h-4 text-[#2E5E99] shrink-0 mt-0.5" />
+                  <span>Can individual engineers keep private scratchpad notes separate from team boards?</span>
+                </h3>
+                <p className="text-xs sm:text-sm text-[#5F7083] leading-relaxed pl-6.5">
+                  Yes. Every user has an isolated Personal Space. Individual checklists, rough ideas, and estimated completion times remain strictly private until the engineer explicitly clicks &ldquo;Triage to Board.&rdquo;
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-[#CBD6E2] bg-[#F8FAFC]">
+                <h3 className="font-heading font-bold text-sm sm:text-base text-[#0D2440] mb-2 flex items-start gap-2.5">
+                  <HelpCircle className="w-4 h-4 text-[#2E5E99] shrink-0 mt-0.5" />
+                  <span>How does SprintDesk calculate team capacity and workload balance?</span>
+                </h3>
+                <p className="text-xs sm:text-sm text-[#5F7083] leading-relaxed pl-6.5">
+                  The Workload Engine aggregates active Fibonacci story points per contributor and benchmarks them against rolling 4-sprint velocity. If a developer exceeds optimal capacity, the system flags a burnout warning.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-[#CBD6E2] bg-[#F8FAFC]">
+                <h3 className="font-heading font-bold text-sm sm:text-base text-[#0D2440] mb-2 flex items-start gap-2.5">
+                  <HelpCircle className="w-4 h-4 text-[#2E5E99] shrink-0 mt-0.5" />
+                  <span>What happens when a task is flagged as blocked?</span>
+                </h3>
+                <p className="text-xs sm:text-sm text-[#5F7083] leading-relaxed pl-6.5">
+                  Blocked cards immediately trigger an amber highlight on the Command Center and alert designated leads, ensuring architectural and cross-team dependencies get resolved before deadlines are compromised.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-[#CBD6E2] bg-[#F8FAFC]">
+                <h3 className="font-heading font-bold text-sm sm:text-base text-[#0D2440] mb-2 flex items-start gap-2.5">
+                  <HelpCircle className="w-4 h-4 text-[#2E5E99] shrink-0 mt-0.5" />
+                  <span>Can we invite clients or external stakeholders with restricted permissions?</span>
+                </h3>
+                <p className="text-xs sm:text-sm text-[#5F7083] leading-relaxed pl-6.5">
+                  Yes. On the SprintDesk Agency tier, you can configure read-only client portals to share live sprint burndown views and deliverable statuses without revealing internal notes or developer chat.
+                </p>
+              </div>
             </div>
           </Container>
         </section>
 
-        {/* Final CTA with Internal Links */}
+        {/* Section 6: Final CTA with Internal Links */}
         <section className="py-24 bg-[#0D2440] text-white text-center">
           <Container size="default" className="max-w-3xl mx-auto">
             <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-white tracking-tight mb-4">
               Give your team one place to move work forward.
             </h2>
             <p className="text-sm text-[#CBD6E2] mb-8 leading-relaxed">
-              Start free today with up to 3 workspaces. Scale to unlimited team members when your sprint rhythm accelerates.
+              Start free today with up to 2 team workspaces. Scale to Pro or Agency as your team velocity accelerates.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
               <Button

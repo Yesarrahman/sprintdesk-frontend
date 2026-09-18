@@ -1,27 +1,26 @@
-import { TrendingUp, AlertTriangle, CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
+import { TrendingUp, AlertTriangle, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
-import { getAppUrl } from "@/lib/utils";
+import { GsapReveal, GsapScale } from "@/components/marketing/gsap-effects";
 
 export function Predictability() {
   return (
-    <section className="py-24 sm:py-32 bg-[#FFFFFF]">
+    <section className="py-20 sm:py-28 bg-white">
       <Container size="default">
         {/* Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#2E5E99] mb-3">
-            Realtime Delivery Intelligence
+        <GsapReveal className="max-w-3xl mb-14">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#2E5E99] mb-2">
+            DELIVERY FORECAST
           </div>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#0D2440] mb-5">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#0D2440] mb-4">
             See the sprint before it becomes a deadline.
           </h2>
           <p className="text-base text-[#5F7083] leading-relaxed">
             Predictable velocity, automated burnup analytics, and immediate bottleneck detection keep your team shipping calmly ahead of target release dates.
           </p>
-        </div>
+        </GsapReveal>
 
-        {/* Predictability Visual Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+        {/* Predictability Visual Row matching screenshot */}
+        <GsapScale className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Main Burnup & Velocity Visual (8 cols) */}
           <div className="lg:col-span-8 rounded-2xl border border-[#CBD6E2] bg-[#F5F8FB] p-6 sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -29,7 +28,7 @@ export function Predictability() {
                 <span className="text-xs font-bold uppercase tracking-wider text-[#0D2440]">
                   Sprint 42 Health Forecast
                 </span>
-                <div className="text-2xl font-bold text-[#0D2440]">
+                <div className="text-2xl font-extrabold text-[#0D2440] mt-1">
                   34 / 42 Story Points Completed
                 </div>
               </div>
@@ -42,12 +41,12 @@ export function Predictability() {
             <div className="space-y-2 mb-6">
               <div className="flex justify-between text-xs font-medium text-[#5F7083]">
                 <span>Day 1 (Kickoff)</span>
-                <span className="font-semibold text-[#0D2440]">Day 8 (Today: 81% Complete)</span>
+                <span className="font-bold text-[#0D2440]">Day 8 (Today: 81% Complete)</span>
                 <span>Day 10 (Target Release)</span>
               </div>
-              <div className="w-full h-4 bg-[#E7F0FA] rounded-full overflow-hidden p-0.5 border border-[#CBD6E2]">
+              <div className="w-full h-3.5 bg-[#E7F0FA] rounded-full overflow-hidden p-0.5 border border-[#CBD6E2]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#2E5E99] to-[#7BA4D0] rounded-full transition-all duration-700"
+                  className="h-full bg-gradient-to-r from-[#2E5E99] to-[#7BA4D0] rounded-full"
                   style={{ width: "81%" }}
                 />
               </div>
@@ -60,72 +59,39 @@ export function Predictability() {
                 <div className="text-base font-bold text-[#0D2440]">0 pts (Locked)</div>
               </div>
               <div>
-                <div className="text-[11px] uppercase font-bold text-[#5F7083]">Cycle Time</div>
-                <div className="text-base font-bold text-[#0D2440]">1.4 Days Avg</div>
+                <div className="text-[11px] uppercase font-bold text-[#5F7083]">Est. Completion</div>
+                <div className="text-base font-bold text-[#23865A]">Thursday 4 PM</div>
               </div>
               <div>
-                <div className="text-[11px] uppercase font-bold text-[#5F7083]">Release Confidence</div>
-                <div className="text-base font-bold text-[#23865A]">96% (High)</div>
+                <div className="text-[11px] uppercase font-bold text-[#5F7083]">On-Track Probability</div>
+                <div className="text-base font-bold text-[#2E5E99]">96% Confidence</div>
               </div>
             </div>
           </div>
 
-          {/* Right Alert Card (4 cols) */}
-          <div className="lg:col-span-4 rounded-2xl border border-[#CBD6E2] bg-[#0D2440] text-white p-6 sm:p-8 flex flex-col justify-between">
+          {/* Right Dark Card matching UI screenshot (4 cols) */}
+          <div className="lg:col-span-4 rounded-2xl border border-[#0D2440] bg-[#0D2440] p-6 sm:p-8 text-white flex flex-col justify-between shadow-xl">
             <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#7BA4D0]">
-                  Blocker Radar
-                </span>
-                <span className="px-2 py-0.5 rounded bg-rose-900/60 border border-rose-500/40 text-[11px] font-bold text-rose-300">
-                  ACTION TAKEN
+              <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#7BA4D0] mb-3">
+                <span>RADAR STATUS</span>
+                <span className="text-[#23865A] bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                  HEALTHY
                 </span>
               </div>
-              <h3 className="font-heading font-bold text-lg text-white mb-2">
-                Staging Database Migration Blocked
-              </h3>
-              <p className="text-xs text-[#CBD6E2] leading-relaxed mb-4">
-                Task #481 flagged an environment dependency. SprintDesk automatically escalated to DevOps lead Alex Morgan.
+              <div className="text-2xl font-extrabold text-white mb-2">
+                0 Active Blockers
+              </div>
+              <p className="text-xs text-[#CBD6E2] leading-relaxed">
+                When tickets stall or dependencies arise, SprintDesk highlights cards automatically so leads can clear paths before sprint review.
               </p>
-              <div className="p-3 rounded-lg bg-[#163359] border border-[#2E5E99]/60 text-xs text-[#E7F0FA]">
-                Status: <strong className="text-emerald-400">Resolved</strong> in 28 mins without calling an emergency meeting.
-              </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#1E3A5F]">
-              <span className="text-xs text-[#7BA4D0]">
-                Zero surprise sprint retrospectives.
-              </span>
+            <div className="pt-6 border-t border-[#1E3A5F] flex items-center justify-between text-xs text-[#7BA4D0]">
+              <span>Cycle Time: <strong className="text-white">1.8 Days</strong></span>
+              <span>Review Buffer: <strong className="text-white">Optimal</strong></span>
             </div>
           </div>
-        </div>
-
-        {/* Dual Value Cards matching uploaded design */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-xl border border-[#CBD6E2] p-6 bg-white hover:border-[#7BA4D0] transition-colors">
-            <h4 className="font-heading font-bold text-lg text-[#0D2440] mb-2">
-              Full sprint predictability without policing your team.
-            </h4>
-            <p className="text-xs text-[#5F7083] leading-relaxed mb-4">
-              Eliminate invasive check-ins and passive-aggressive Slack pings. SprintDesk models progress continuously from active cards and pull requests so leaders have total visibility without micromanagement.
-            </p>
-            <Button variant="ghost" size="sm" href="/team-workload-management" className="text-xs font-semibold text-[#2E5E99] px-0 hover:bg-transparent">
-              Explore Workload Analytics →
-            </Button>
-          </div>
-
-          <div className="rounded-xl border border-[#CBD6E2] p-6 bg-white hover:border-[#7BA4D0] transition-colors">
-            <h4 className="font-heading font-bold text-lg text-[#0D2440] mb-2">
-              Total sanctuary to code without ticket administration.
-            </h4>
-            <p className="text-xs text-[#5F7083] leading-relaxed mb-4">
-              Engineers stay locked in deep flow. Update status with a git branch, capture ideas in half a second, and never fill out multi-field ticket forms just to move work into progress.
-            </p>
-            <Button variant="ghost" size="sm" href="/personal-task-management" className="text-xs font-semibold text-[#2E5E99] px-0 hover:bg-transparent">
-              See Developer Focus Flow →
-            </Button>
-          </div>
-        </div>
+        </GsapScale>
       </Container>
     </section>
   );
