@@ -7,7 +7,7 @@ import { DualFlows } from "@/components/marketing/dual-flows";
 import { Predictability } from "@/components/marketing/predictability";
 import { AutomationSection } from "@/components/marketing/automation-section";
 import { AudienceSection } from "@/components/marketing/audience-section";
-import { PricingPreview } from "@/components/marketing/pricing-preview";
+import { SplitPricingCard } from "@/components/marketing/split-pricing-card";
 import { ClosingCta } from "@/components/marketing/closing-cta";
 import { Footer } from "@/components/marketing/footer";
 import { constructMetadata } from "@/lib/seo";
@@ -51,7 +51,7 @@ export default function HomePage() {
         <AudienceSection />
 
         {/* 10. Real Pricing Tiers ($0 Free, $15 Pro, $29 Agency from Stripe billing-client.tsx) */}
-        <PricingPreview />
+        <SplitPricingCard />
 
         {/* 11. Final Call to Action (Deep Navy #0D2440 section) */}
         <ClosingCta />

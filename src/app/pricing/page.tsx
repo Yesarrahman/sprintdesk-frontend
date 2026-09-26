@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAppUrl } from "@/lib/utils";
 import { GsapReveal, GsapStagger } from "@/components/marketing/gsap-effects";
+import { SplitPricingCard } from "@/components/marketing/split-pricing-card";
 
 const faqs = [
   {
@@ -81,243 +82,18 @@ const comparisonMatrix = [
 ];
 
 export default function PricingPage() {
-  const [annualBilling, setAnnualBilling] = React.useState(true);
-
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Navbar />
 
       <main className="flex-1 pt-32 pb-24 md:pt-40">
-        {/* Header */}
-        <section className="text-center pb-16">
-          <Container size="default">
-            <div className="max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E7F0FA] border border-[#7BA4D0]/40 text-xs font-semibold uppercase tracking-wider text-[#0D2440] mb-6">
-                <Sparkles className="w-3.5 h-3.5 text-[#2E5E99]" />
-                <span>Transparent & Predictable</span>
-              </div>
-              <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#0D2440] mb-6">
-                Start simple. Scale when the work does.
-              </h1>
-              <p className="text-base sm:text-lg text-[#5F7083] leading-relaxed mb-8">
-                Choose the SprintDesk plan tailored for your output today. Upgrade or downgrade anytime with zero lock-in contracts.
-              </p>
-
-              {/* Billing Cycle Switcher */}
-              <div className="inline-flex items-center gap-3 p-1.5 rounded-full bg-[#F5F8FB] border border-[#CBD6E2]">
-                <button
-                  onClick={() => setAnnualBilling(false)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                    !annualBilling
-                      ? "bg-[#2E5E99] text-white shadow-xs"
-                      : "text-[#5F7083] hover:text-[#0D2440]"
-                  }`}
-                >
-                  Monthly Billing
-                </button>
-                <button
-                  onClick={() => setAnnualBilling(true)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                    annualBilling
-                      ? "bg-[#2E5E99] text-white shadow-xs"
-                      : "text-[#5F7083] hover:text-[#0D2440]"
-                  }`}
-                >
-                  Annual Billing
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-white text-[10px] font-extrabold">
-                    10% OFF
-                  </span>
-                </button>
-              </div>
-            </div>
-          </Container>
-        </section>
-
-        {/* Pricing Tiers Grid */}
-        <section className="pb-24">
-          <Container size="default">
-            <GsapStagger className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" stagger={0.15}>
-              {/* Free Tier */}
-              <div className="rounded-2xl border border-[#CBD6E2] bg-white p-8 shadow-sm hover:border-[#7BA4D0] flex flex-col justify-between">
-                <div>
-                  <div className="text-sm font-bold uppercase tracking-wider text-[#0D2440] mb-2">
-                    Free
-                  </div>
-                  <div className="flex items-baseline gap-1 mb-3">
-                    <span className="text-5xl font-extrabold text-[#0D2440] font-heading">$0</span>
-                    <span className="text-xs text-[#5F7083] font-medium">/forever</span>
-                  </div>
-                  <p className="text-xs text-[#5F7083] leading-relaxed mb-6">
-                    For individuals and small teams getting started.
-                  </p>
-                  <div className="space-y-3 pt-4 border-t border-[#CBD6E2]/60 mb-8">
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Personal Space included</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Create up to 2 team workspaces</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Invite up to 3 members per workspace</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Task management & Kanban board</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Calendar & Capture Inbox</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Basic notifications</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Estimated Workday Finish Time</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  variant="outline"
-                  size="md"
-                  href={getAppUrl("/signup")}
-                  className="w-full justify-center text-xs font-semibold"
-                >
-                  Free Forever — Start Now
-                </Button>
-              </div>
-
-              {/* Pro Tier */}
-              <div className="rounded-2xl border-2 border-[#2E5E99] bg-white p-8 shadow-2xl relative flex flex-col justify-between lg:-translate-y-3">
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="px-3.5 py-1 rounded-full bg-[#2E5E99] text-white text-xs font-bold tracking-wider uppercase shadow-sm flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" /> Most Popular
-                  </span>
-                </div>
-
-                <div>
-                  <div className="text-sm font-bold uppercase tracking-wider text-[#0D2440] mb-2">
-                    SprintDesk Pro
-                  </div>
-                  <div className="flex items-baseline gap-1 mb-3">
-                    <span className="text-5xl font-extrabold text-[#0D2440] font-heading">
-                      {annualBilling ? "$13.50" : "$15"}
-                    </span>
-                    <span className="text-xs text-[#5F7083] font-medium">
-                      / month
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#5F7083] leading-relaxed mb-6">
-                    For growing teams needing reporting and analytics.
-                  </p>
-                  <div className="space-y-3 pt-4 border-t border-[#CBD6E2]/60 mb-8">
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440] font-semibold">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Everything in Free, plus:</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Create up to 5 team workspaces</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Invite up to 10 members per workspace</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Team & Individual PDF Reports</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Custom date range reporting</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Submit-to-Manager workflow</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Priority support</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  variant="primary"
-                  size="md"
-                  href={getAppUrl("/signup?plan=pro")}
-                  className="w-full justify-center text-xs font-semibold bg-[#2E5E99] hover:bg-[#386eb0] text-white shadow-md"
-                >
-                  Start Pro
-                </Button>
-              </div>
-
-              {/* Agency Tier */}
-              <div className="rounded-2xl border border-[#CBD6E2] bg-white p-8 shadow-sm hover:border-[#7BA4D0] flex flex-col justify-between">
-                <div>
-                  <div className="text-sm font-bold uppercase tracking-wider text-[#0D2440] mb-2">
-                    SprintDesk Agency
-                  </div>
-                  <div className="flex items-baseline gap-1 mb-3">
-                    <span className="text-5xl font-extrabold text-[#0D2440] font-heading">
-                      {annualBilling ? "$26.10" : "$29"}
-                    </span>
-                    <span className="text-xs text-[#5F7083] font-medium">
-                      / month
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#5F7083] leading-relaxed mb-6">
-                    For agencies and power teams needing automation.
-                  </p>
-                  <div className="space-y-3 pt-4 border-t border-[#CBD6E2]/60 mb-8">
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440] font-semibold">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Everything in Pro, plus:</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Unlimited team workspaces</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Unlimited workspace members</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Automations engine</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Advanced time tracking</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Client portals (Coming Soon)</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-[#0D2440]">
-                      <Check className="w-4 h-4 text-[#2E5E99] shrink-0" />
-                      <span>Dedicated onboarding support</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  variant="dark"
-                  size="md"
-                  href={getAppUrl("/signup?plan=agency")}
-                  className="w-full justify-center text-xs font-semibold"
-                >
-                  Choose Agency
-                </Button>
-              </div>
-            </GsapStagger>
-          </Container>
-        </section>
+        {/* Interactive Split Pricing Card with book page flip */}
+        <SplitPricingCard
+          tagline="Transparent & Predictable"
+          title="Start simple. Scale when the work does."
+          description="Choose the SprintDesk plan tailored for your output today. Upgrade or downgrade anytime with zero lock-in contracts."
+          className="pb-24 pt-4"
+        />
 
         {/* Feature Comparison Matrix */}
         <section className="py-20 bg-[#F5F8FB] border-t border-b border-[#CBD6E2]/70">
