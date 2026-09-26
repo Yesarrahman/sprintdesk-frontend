@@ -11,6 +11,21 @@ import { getAppUrl } from "@/lib/utils";
 export type PlanId = "free" | "pro" | "agency";
 export type Billing = "monthly" | "annual";
 
+export interface PlanTheme {
+  ticketBg: string;
+  ticketBorder: string;
+  currencyColor: string;
+  priceTextColor: string;
+  featureBadgeStyle: string;
+  checkBg: string;
+  checkIcon: string;
+  ctaClass: string;
+  ctaArrowColor: string;
+  outerGlow: string;
+  activeTabBorder: string;
+  activeTabPrice: string;
+}
+
 export interface Plan {
   id: PlanId;
   tabLabel: string;
@@ -22,7 +37,7 @@ export interface Plan {
   pricePer: string;
   billedNote: (billing: Billing) => string;
   badge?: string;
-  accentBg: string;
+  theme: PlanTheme;
   features: string[];
   ctaLabel: (billing: Billing) => string;
   ctaHref: string;
@@ -39,7 +54,20 @@ const PLANS: Plan[] = [
     annualMonthlyPrice: 0,
     pricePer: "Forever free",
     billedNote: () => "No credit card required",
-    accentBg: "from-slate-100 to-slate-200/80",
+    theme: {
+      ticketBg: "from-slate-50 via-slate-100 to-slate-200/70",
+      ticketBorder: "border-slate-200/80",
+      currencyColor: "text-[#EF4444]",
+      priceTextColor: "text-slate-900",
+      featureBadgeStyle: "border-slate-900/80 text-slate-900 bg-transparent",
+      checkBg: "bg-slate-200/90",
+      checkIcon: "text-slate-700",
+      ctaClass: "bg-[#0F172A] hover:bg-black text-white shadow-slate-900/10 hover:shadow-slate-900/20",
+      ctaArrowColor: "text-[#EF4444]",
+      outerGlow: "border-slate-200/90 bg-slate-100/60 shadow-[0_24px_60px_-15px_rgba(15,23,42,0.1)]",
+      activeTabBorder: "border-slate-200/60 text-slate-900",
+      activeTabPrice: "text-slate-900",
+    },
     features: [
       "1 Personal Workspace (100% private)",
       "Up to 2 team workspaces included",
@@ -64,7 +92,20 @@ const PLANS: Plan[] = [
     billedNote: (billing) =>
       billing === "annual" ? "Billed annually ($162/yr, save 10%)" : "Billed monthly",
     badge: "Most Popular",
-    accentBg: "from-indigo-50/70 via-slate-100 to-indigo-100/60",
+    theme: {
+      ticketBg: "from-blue-50/90 via-indigo-50/80 to-indigo-100/70",
+      ticketBorder: "border-indigo-200/80",
+      currencyColor: "text-[#2563EB]",
+      priceTextColor: "text-slate-900",
+      featureBadgeStyle: "border-indigo-500/40 text-indigo-700 bg-indigo-50/60",
+      checkBg: "bg-indigo-600 shadow-xs shadow-indigo-600/30",
+      checkIcon: "text-white",
+      ctaClass: "bg-gradient-to-r from-[#0D2440] via-[#1E3A8A] to-[#2563EB] hover:brightness-110 text-white shadow-indigo-900/20 hover:shadow-indigo-900/30",
+      ctaArrowColor: "text-[#38BDF8]",
+      outerGlow: "border-indigo-200/80 bg-indigo-50/25 shadow-[0_24px_60px_-15px_rgba(37,99,235,0.12)]",
+      activeTabBorder: "border-indigo-300/80 text-indigo-950",
+      activeTabPrice: "text-indigo-600",
+    },
     features: [
       "Everything included in Free plan",
       "Up to 5 team workspaces",
@@ -89,7 +130,21 @@ const PLANS: Plan[] = [
     pricePer: "Per month",
     billedNote: (billing) =>
       billing === "annual" ? "Billed annually ($313/yr, save 10%)" : "Billed monthly",
-    accentBg: "from-purple-50/70 via-slate-100 to-purple-100/60",
+    badge: "Unlimited",
+    theme: {
+      ticketBg: "from-purple-50/90 via-fuchsia-50/60 to-purple-100/80",
+      ticketBorder: "border-purple-200/80",
+      currencyColor: "text-[#9333EA]",
+      priceTextColor: "text-slate-900",
+      featureBadgeStyle: "border-purple-500/40 text-purple-700 bg-purple-50/60",
+      checkBg: "bg-purple-600 shadow-xs shadow-purple-600/30",
+      checkIcon: "text-white",
+      ctaClass: "bg-gradient-to-r from-[#4C1D95] via-[#6D28D9] to-[#7C3AED] hover:brightness-110 text-white shadow-purple-900/20 hover:shadow-purple-900/30",
+      ctaArrowColor: "text-[#F472B6]",
+      outerGlow: "border-purple-200/80 bg-purple-50/25 shadow-[0_24px_60px_-15px_rgba(147,51,234,0.12)]",
+      activeTabBorder: "border-purple-300/80 text-purple-950",
+      activeTabPrice: "text-purple-600",
+    },
     features: [
       "Everything included in Pro plan",
       "Unlimited team workspaces",
@@ -123,7 +178,7 @@ function TicketCardContent({ plan, billing, roundedLeft = true }: TicketProps) {
 
   return (
     <div
-      className={`w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-gradient-to-br ${plan.accentBg} relative overflow-hidden select-none border border-slate-200/80 ${
+      className={`w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-gradient-to-br ${plan.theme.ticketBg} relative overflow-hidden select-none border ${plan.theme.ticketBorder} ${
         roundedLeft ? "rounded-2xl md:rounded-l-2xl md:rounded-r-none" : "rounded-2xl"
       }`}
     >
@@ -162,10 +217,10 @@ function TicketCardContent({ plan, billing, roundedLeft = true }: TicketProps) {
         </p>
       </div>
 
-      {/* Ticket Price Section */}
+      {/* Ticket Price Section with Theme-Specific Currency Accent */}
       <div className="relative z-10 pt-8">
         <div className="flex items-baseline gap-1">
-          <span className="text-3xl sm:text-4xl font-extrabold text-[#EF4444] font-heading">
+          <span className={`text-3xl sm:text-4xl font-extrabold font-heading transition-colors duration-300 ${plan.theme.currencyColor}`}>
             $
           </span>
           <span className="text-5xl sm:text-6xl font-black text-slate-900 font-heading tracking-tight">
@@ -200,25 +255,25 @@ interface FeaturesProps {
 function FeaturesCardContent({ plan, billing, roundedRight = true }: FeaturesProps) {
   return (
     <div
-      className={`w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white border border-slate-200/80 ${
+      className={`w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white border ${plan.theme.ticketBorder} ${
         roundedRight ? "rounded-2xl md:rounded-r-2xl md:rounded-l-none" : "rounded-2xl"
       }`}
     >
       <div>
-        {/* "What's Included" badge */}
+        {/* "What's Included" badge with Theme-Specific Style */}
         <div className="mb-6">
-          <span className="inline-block px-3.5 py-1 rounded-full border border-slate-900/80 text-xs font-bold text-slate-900 tracking-tight">
+          <span className={`inline-block px-3.5 py-1 rounded-full border text-xs font-bold tracking-tight transition-colors duration-200 ${plan.theme.featureBadgeStyle}`}>
             What&apos;s Included
           </span>
         </div>
 
-        {/* Features List with dashed dividers */}
+        {/* Features List with dashed dividers and Theme-Specific Checkmarks */}
         <ul className="space-y-0 mb-8">
           {plan.features.map((feature, idx) => (
             <li key={idx}>
               <div className="flex items-start gap-3 py-2.5">
-                <div className="mt-0.5 w-4 h-4 rounded-full bg-slate-200/90 text-slate-700 flex items-center justify-center shrink-0">
-                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${plan.theme.checkBg}`}>
+                  <Check className={`w-2.5 h-2.5 stroke-[3] ${plan.theme.checkIcon}`} />
                 </div>
                 <span className="text-xs sm:text-sm text-slate-700 font-medium leading-snug">
                   {feature}
@@ -232,13 +287,13 @@ function FeaturesCardContent({ plan, billing, roundedRight = true }: FeaturesPro
         </ul>
       </div>
 
-      {/* Dark CTA Button */}
+      {/* Theme-styled CTA Button */}
       <a
         href={plan.ctaHref}
-        className="group w-full py-4 px-6 rounded-2xl bg-[#0F172A] hover:bg-black text-white font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 shadow-lg shadow-slate-900/10 hover:shadow-xl active:scale-[0.99] cursor-pointer"
+        className={`group w-full py-4 px-6 rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 shadow-lg active:scale-[0.99] cursor-pointer ${plan.theme.ctaClass}`}
       >
         <span>{plan.ctaLabel(billing)}</span>
-        <ArrowRight className="w-4 h-4 text-[#EF4444] transition-transform duration-200 group-hover:translate-x-1.5" />
+        <ArrowRight className={`w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5 ${plan.theme.ctaArrowColor}`} />
       </a>
     </div>
   );
@@ -312,7 +367,7 @@ export function SplitPricingCard({
 
         {/* ── Outer Toggle Controls ── */}
         <div className="flex flex-col items-center gap-4 mb-10">
-          {/* Segmented Plan Selector matching reference image */}
+          {/* Segmented Plan Selector with Dynamic Active Accents */}
           <div
             className="inline-flex items-center p-1.5 rounded-2xl bg-slate-100/90 border border-slate-200/80 shadow-inner max-w-full overflow-x-auto"
             role="tablist"
@@ -328,21 +383,23 @@ export function SplitPricingCard({
                   onClick={() => handlePlanChange(p.id)}
                   className={`relative flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap outline-none disabled:opacity-80 ${
                     isSelected
-                      ? "bg-white text-slate-900 shadow-sm border border-slate-200/60"
+                      ? `bg-white ${p.theme.activeTabBorder} shadow-sm border`
                       : "text-slate-500 hover:text-slate-900"
                   }`}
                 >
                   <span>{p.tabLabel}</span>
                   <span
-                    className={`text-xs ${
-                      isSelected ? "text-slate-900 font-bold" : "text-slate-400"
+                    className={`text-xs font-bold transition-colors ${
+                      isSelected ? p.theme.activeTabPrice : "text-slate-400"
                     }`}
                   >
                     {p.tabPrice}
                   </span>
                   {p.badge && isSelected && (
-                    <span className="hidden sm:inline-block px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-[#2E5E99] text-white uppercase tracking-wider">
-                      Popular
+                    <span className={`hidden sm:inline-block px-1.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white ${
+                      p.id === "pro" ? "bg-[#2563EB]" : "bg-[#9333EA]"
+                    }`}>
+                      {p.badge}
                     </span>
                   )}
                 </button>
@@ -388,15 +445,13 @@ export function SplitPricingCard({
           </div>
         </div>
 
-        {/* ── Main Book Spread Outer Frame ── */}
+        {/* ── Main Book Spread Outer Frame with Dynamic Ambient Glow ── */}
         <div className="max-w-4xl mx-auto">
-          {/* Outer Book Cover Container with 3D Perspective */}
+          {/* Outer Book Cover Container with 3D Perspective and Theme Glow */}
           <div
-            className="rounded-[32px] border border-slate-200/90 bg-slate-100/60 p-3 sm:p-5 md:p-6 relative overflow-hidden"
+            className={`rounded-[32px] p-3 sm:p-5 md:p-6 relative overflow-hidden transition-all duration-500 border ${plan.theme.outerGlow}`}
             style={{
               perspective: 2000,
-              boxShadow:
-                "0 24px 60px -15px rgba(15, 23, 42, 0.1), 0 0 1px 1px rgba(15, 23, 42, 0.04)",
             }}
           >
             {/* ══════════════════════════════════════════════════════════════════
@@ -468,7 +523,7 @@ export function SplitPricingCard({
                       backfaceVisibility: "hidden",
                       WebkitBackfaceVisibility: "hidden",
                     }}
-                    className="overflow-hidden rounded-r-2xl shadow-xl border border-slate-200/80 bg-white"
+                    className={`overflow-hidden rounded-r-2xl shadow-xl border ${animatingFromPlan.theme.ticketBorder} bg-white`}
                   >
                     <FeaturesCardContent
                       plan={animatingFromPlan}
@@ -490,7 +545,7 @@ export function SplitPricingCard({
                       backfaceVisibility: "hidden",
                       WebkitBackfaceVisibility: "hidden",
                     }}
-                    className="overflow-hidden rounded-l-2xl shadow-2xl border border-slate-200/80"
+                    className={`overflow-hidden rounded-l-2xl shadow-2xl border ${animatingToPlan.theme.ticketBorder}`}
                   >
                     <TicketCardContent
                       plan={animatingToPlan}
@@ -536,7 +591,7 @@ export function SplitPricingCard({
                       backfaceVisibility: "hidden",
                       WebkitBackfaceVisibility: "hidden",
                     }}
-                    className="overflow-hidden rounded-l-2xl shadow-xl border border-slate-200/80"
+                    className={`overflow-hidden rounded-l-2xl shadow-xl border ${animatingFromPlan.theme.ticketBorder}`}
                   >
                     <TicketCardContent
                       plan={animatingFromPlan}
@@ -558,7 +613,7 @@ export function SplitPricingCard({
                       backfaceVisibility: "hidden",
                       WebkitBackfaceVisibility: "hidden",
                     }}
-                    className="overflow-hidden rounded-r-2xl shadow-2xl border border-slate-200/80 bg-white"
+                    className={`overflow-hidden rounded-r-2xl shadow-2xl border ${animatingToPlan.theme.ticketBorder} bg-white`}
                   >
                     <FeaturesCardContent
                       plan={animatingToPlan}
