@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { Check, ArrowRight, Sparkles, Building2, User } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ArrowRight, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { getAppUrl } from "@/lib/utils";
 
@@ -105,47 +105,144 @@ const PLANS: Plan[] = [
   },
 ];
 
-// ─── 3D Book Page Flip Animation Variants ──────────────────────────────────────
+// ─── Sub-Component: Left Page Visual Price Ticket ──────────────────────────────
 
-const bookFlipVariants: Variants = {
-  initial: (direction: number) => ({
-    rotateY: direction > 0 ? 80 : -80,
-    opacity: 0,
-    scale: 0.96,
-  }),
-  animate: {
-    rotateY: 0,
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 1, 0.5, 1] as const,
-    },
-  },
-  exit: (direction: number) => ({
-    rotateY: direction > 0 ? -80 : 80,
-    opacity: 0,
-    scale: 0.96,
-    transition: {
-      duration: 0.35,
-      ease: [0.5, 0, 0.75, 0] as const,
-    },
-  }),
-};
+interface TicketProps {
+  plan: Plan;
+  billing: Billing;
+  roundedLeft?: boolean;
+}
 
-const rightContentVariants: Variants = {
-  initial: { opacity: 0, x: 12 },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.35, ease: "easeOut", delay: 0.08 },
-  },
-  exit: {
-    opacity: 0,
-    x: -8,
-    transition: { duration: 0.2, ease: "easeIn" },
-  },
-};
+function TicketCardContent({ plan, billing, roundedLeft = true }: TicketProps) {
+  const currentPrice =
+    plan.monthlyPrice === 0
+      ? 0
+      : billing === "annual"
+      ? plan.annualMonthlyPrice
+      : plan.monthlyPrice;
+
+  return (
+    <div
+      className={`w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-gradient-to-br ${plan.accentBg} relative overflow-hidden select-none border border-slate-200/80 ${
+        roundedLeft ? "rounded-2xl md:rounded-l-2xl md:rounded-r-none" : "rounded-2xl"
+      }`}
+    >
+      {/* Top-Left Ticket Fold Corner Accent */}
+      <div className="absolute -top-3 -left-3 w-7 h-7 bg-white rotate-45 border-b border-r border-slate-300/80 shadow-xs pointer-events-none z-10" />
+
+      {/* Bottom-Right Ticket Fold Corner Accent */}
+      <div className="absolute -bottom-3 -right-3 w-7 h-7 bg-white rotate-45 border-t border-l border-slate-300/80 shadow-xs pointer-events-none z-10" />
+
+      {/* Stylized Brand Watermark */}
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.07] font-black text-[130px] tracking-tighter text-slate-900 leading-none">
+        SD
+      </div>
+
+      {/* Barcode styling dashes on the bottom right */}
+      <div className="absolute right-4 bottom-8 flex flex-col gap-1 opacity-25 pointer-events-none z-0">
+        {[...Array(9)].map((_, i) => (
+          <div
+            key={i}
+            className={`w-3.5 h-1 rounded-xs bg-slate-900 ${
+              i % 2 === 0 ? "opacity-100" : "opacity-60"
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Ticket Header Content */}
+      <div className="relative z-10">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <span className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight">
+            {plan.title}
+          </span>
+        </div>
+        <p className="text-xs sm:text-sm text-slate-600 max-w-[220px] leading-relaxed">
+          {plan.subtitle}
+        </p>
+      </div>
+
+      {/* Ticket Price Section */}
+      <div className="relative z-10 pt-8">
+        <div className="flex items-baseline gap-1">
+          <span className="text-3xl sm:text-4xl font-extrabold text-[#EF4444] font-heading">
+            $
+          </span>
+          <span className="text-5xl sm:text-6xl font-black text-slate-900 font-heading tracking-tight">
+            {currentPrice === 0
+              ? "0"
+              : currentPrice.toFixed(
+                  billing === "annual" && plan.monthlyPrice > 0 ? 2 : 0
+                )}
+          </span>
+        </div>
+        <div className="mt-1 space-y-0.5">
+          <p className="text-xs sm:text-sm font-semibold text-slate-700">
+            {plan.pricePer}
+          </p>
+          <p className="text-[11px] text-slate-500 font-medium">
+            {plan.billedNote(billing)}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Sub-Component: Right Page Features & CTA ─────────────────────────────────
+
+interface FeaturesProps {
+  plan: Plan;
+  billing: Billing;
+  roundedRight?: boolean;
+}
+
+function FeaturesCardContent({ plan, billing, roundedRight = true }: FeaturesProps) {
+  return (
+    <div
+      className={`w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white border border-slate-200/80 ${
+        roundedRight ? "rounded-2xl md:rounded-r-2xl md:rounded-l-none" : "rounded-2xl"
+      }`}
+    >
+      <div>
+        {/* "What's Included" badge */}
+        <div className="mb-6">
+          <span className="inline-block px-3.5 py-1 rounded-full border border-slate-900/80 text-xs font-bold text-slate-900 tracking-tight">
+            What&apos;s Included
+          </span>
+        </div>
+
+        {/* Features List with dashed dividers */}
+        <ul className="space-y-0 mb-8">
+          {plan.features.map((feature, idx) => (
+            <li key={idx}>
+              <div className="flex items-start gap-3 py-2.5">
+                <div className="mt-0.5 w-4 h-4 rounded-full bg-slate-200/90 text-slate-700 flex items-center justify-center shrink-0">
+                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                </div>
+                <span className="text-xs sm:text-sm text-slate-700 font-medium leading-snug">
+                  {feature}
+                </span>
+              </div>
+              {idx < plan.features.length - 1 && (
+                <div className="border-b border-dashed border-slate-200/80" />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Dark CTA Button */}
+      <a
+        href={plan.ctaHref}
+        className="group w-full py-4 px-6 rounded-2xl bg-[#0F172A] hover:bg-black text-white font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 shadow-lg shadow-slate-900/10 hover:shadow-xl active:scale-[0.99] cursor-pointer"
+      >
+        <span>{plan.ctaLabel(billing)}</span>
+        <ArrowRight className="w-4 h-4 text-[#EF4444] transition-transform duration-200 group-hover:translate-x-1.5" />
+      </a>
+    </div>
+  );
+}
 
 // ─── Component Props ───────────────────────────────────────────────────────────
 
@@ -166,24 +263,33 @@ export function SplitPricingCard({
 }: SplitPricingCardProps = {}) {
   const [activePlanId, setActivePlanId] = React.useState<PlanId>("free");
   const [billing, setBilling] = React.useState<Billing>("monthly");
-  const [direction, setDirection] = React.useState<number>(1);
+
+  // Book Page Flip animation state
+  const [isFlipping, setIsFlipping] = React.useState<boolean>(false);
+  const [flipDirection, setFlipDirection] = React.useState<1 | -1>(1); // 1 = forward (right->left), -1 = backward (left->right)
+  const [animatingFromPlan, setAnimatingFromPlan] = React.useState<Plan>(PLANS[0]);
+  const [animatingToPlan, setAnimatingToPlan] = React.useState<Plan>(PLANS[0]);
 
   const activeIndex = PLANS.findIndex((p) => p.id === activePlanId);
   const plan = PLANS[activeIndex];
 
   const handlePlanChange = (newPlanId: PlanId) => {
-    if (newPlanId === activePlanId) return;
-    const newIndex = PLANS.findIndex((p) => p.id === newPlanId);
-    setDirection(newIndex > activeIndex ? 1 : -1);
+    if (newPlanId === activePlanId || isFlipping) return;
+
+    const currentIndex = PLANS.findIndex((p) => p.id === activePlanId);
+    const targetIndex = PLANS.findIndex((p) => p.id === newPlanId);
+    const direction: 1 | -1 = targetIndex > currentIndex ? 1 : -1;
+
+    setAnimatingFromPlan(PLANS[currentIndex]);
+    setAnimatingToPlan(PLANS[targetIndex]);
+    setFlipDirection(direction);
+    setIsFlipping(true);
     setActivePlanId(newPlanId);
   };
 
-  const currentPrice =
-    plan.monthlyPrice === 0
-      ? 0
-      : billing === "annual"
-      ? plan.annualMonthlyPrice
-      : plan.monthlyPrice;
+  const onFlipComplete = () => {
+    setIsFlipping(false);
+  };
 
   return (
     <section id="pricing" className={className}>
@@ -218,8 +324,9 @@ export function SplitPricingCard({
                   key={p.id}
                   role="tab"
                   aria-selected={isSelected}
+                  disabled={isFlipping}
                   onClick={() => handlePlanChange(p.id)}
-                  className={`relative flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap outline-none ${
+                  className={`relative flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap outline-none disabled:opacity-80 ${
                     isSelected
                       ? "bg-white text-slate-900 shadow-sm border border-slate-200/60"
                       : "text-slate-500 hover:text-slate-900"
@@ -281,143 +388,225 @@ export function SplitPricingCard({
           </div>
         </div>
 
-        {/* ── Main Split Card ── */}
+        {/* ── Main Book Spread Outer Frame ── */}
         <div className="max-w-4xl mx-auto">
+          {/* Outer Book Cover Container with 3D Perspective */}
           <div
-            className="rounded-[32px] border border-slate-200/90 bg-white p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 items-stretch relative"
+            className="rounded-[32px] border border-slate-200/90 bg-slate-100/60 p-3 sm:p-5 md:p-6 relative overflow-hidden"
             style={{
+              perspective: 2000,
               boxShadow:
-                "0 20px 50px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(15, 23, 42, 0.03)",
+                "0 24px 60px -15px rgba(15, 23, 42, 0.1), 0 0 1px 1px rgba(15, 23, 42, 0.04)",
             }}
           >
-            {/* ════════ LEFT PANEL: Visual Price Ticket (Book Page Flip) ════════ */}
+            {/* ══════════════════════════════════════════════════════════════════
+                DESKTOP OPEN BOOK SPREAD (md and up)
+                Two equal 50% panels with a central spine and single-leaf flip
+            ══════════════════════════════════════════════════════════════════ */}
             <div
-              className="w-full md:w-[46%] min-h-[360px] sm:min-h-[400px] relative flex flex-col"
-              style={{ perspective: 1200 }}
+              className="hidden md:grid grid-cols-2 relative w-full min-h-[490px] items-stretch"
+              style={{ transformStyle: "preserve-3d" }}
             >
-              <AnimatePresence custom={direction} mode="wait">
+              {/* ── Spine Center Crease & Subtle Shadow ── */}
+              <div
+                className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 z-15 pointer-events-none bg-slate-200/90"
+                style={{
+                  boxShadow:
+                    "-2px 0 6px rgba(0,0,0,0.04), 2px 0 6px rgba(0,0,0,0.04)",
+                }}
+              />
+
+              {/* ── LEFT BASE PANEL ── */}
+              <div className="relative w-full h-full z-0 overflow-hidden rounded-l-2xl">
+                <TicketCardContent
+                  plan={isFlipping && flipDirection === 1 ? animatingFromPlan : isFlipping && flipDirection === -1 ? animatingToPlan : plan}
+                  billing={billing}
+                  roundedLeft={true}
+                />
+              </div>
+
+              {/* ── RIGHT BASE PANEL ── */}
+              <div className="relative w-full h-full z-0 overflow-hidden rounded-r-2xl">
+                <FeaturesCardContent
+                  plan={isFlipping && flipDirection === 1 ? animatingToPlan : isFlipping && flipDirection === -1 ? animatingFromPlan : plan}
+                  billing={billing}
+                  roundedRight={true}
+                />
+              </div>
+
+              {/* ── 3D FLIPPING LEAF (Turns across the spine) ── */}
+              {isFlipping && flipDirection === 1 && (
+                /* FORWARD FLIP: Right features page flips 180° to the Left */
                 <motion.div
-                  key={plan.id}
-                  custom={direction}
-                  variants={bookFlipVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  style={{
-                    transformOrigin: direction > 0 ? "left center" : "right center",
-                    transformStyle: "preserve-3d",
-                    backfaceVisibility: "hidden",
+                  key={`leaf-forward-${animatingToPlan.id}`}
+                  initial={{ rotateY: 0 }}
+                  animate={{ rotateY: -180 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.25, 1, 0.5, 1],
                   }}
-                  className={`w-full h-full flex-1 rounded-2xl bg-gradient-to-br ${plan.accentBg} border border-slate-200/80 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shadow-xs`}
+                  onAnimationComplete={onFlipComplete}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    width: "50%",
+                    height: "100%",
+                    transformOrigin: "left center",
+                    transformStyle: "preserve-3d",
+                    zIndex: 25,
+                  }}
+                  className="pointer-events-none"
                 >
-                  {/* Top-Left Ticket Fold Corner Accent (Visual like reference image) */}
-                  <div className="absolute -top-3 -left-3 w-7 h-7 bg-white rotate-45 border-b border-r border-slate-300/80 shadow-xs pointer-events-none" />
-
-                  {/* Bottom-Right Ticket Fold Corner Accent */}
-                  <div className="absolute -bottom-3 -right-3 w-7 h-7 bg-white rotate-45 border-t border-l border-slate-300/80 shadow-xs pointer-events-none" />
-
-                  {/* Large Stylized Brand Watermark in background */}
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.07] font-black text-[130px] tracking-tighter text-slate-900 leading-none">
-                    SD
+                  {/* Front Face: Previous Plan Features (facing viewer initially) */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                    }}
+                    className="overflow-hidden rounded-r-2xl shadow-xl border border-slate-200/80 bg-white"
+                  >
+                    <FeaturesCardContent
+                      plan={animatingFromPlan}
+                      billing={billing}
+                      roundedRight={true}
+                    />
+                    {/* Dynamic realistic darkening gradient during page lift */}
+                    <div className="absolute inset-0 bg-gradient-to-l from-black/5 via-black/0 to-transparent pointer-events-none" />
                   </div>
 
-                  {/* Right side barcode dashes (matching reference image) */}
-                  <div className="absolute right-4 bottom-8 flex flex-col gap-1 opacity-25 pointer-events-none">
-                    {[...Array(9)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`w-3.5 h-1 rounded-xs bg-slate-900 ${
-                          i % 2 === 0 ? "opacity-100" : "opacity-60"
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Ticket Header Content */}
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-tight">
-                        {plan.title}
-                      </span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-600 max-w-[210px] leading-relaxed">
-                      {plan.subtitle}
-                    </p>
-                  </div>
-
-                  {/* Ticket Price Section (Matching $ color styling in reference image) */}
-                  <div className="relative z-10 pt-8">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl sm:text-4xl font-extrabold text-[#EF4444] font-heading">
-                        $
-                      </span>
-                      <span className="text-5xl sm:text-6xl font-black text-slate-900 font-heading tracking-tight">
-                        {currentPrice === 0 ? "0" : currentPrice.toFixed(billing === "annual" && plan.monthlyPrice > 0 ? 2 : 0)}
-                      </span>
-                    </div>
-                    <div className="mt-1 space-y-0.5">
-                      <p className="text-xs sm:text-sm font-semibold text-slate-700">
-                        {plan.pricePer}
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium">
-                        {plan.billedNote(billing)}
-                      </p>
-                    </div>
+                  {/* Back Face: New Plan Ticket (revealed as leaf turns past 90° and lands on left) */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      transform: "rotateY(180deg)",
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                    }}
+                    className="overflow-hidden rounded-l-2xl shadow-2xl border border-slate-200/80"
+                  >
+                    <TicketCardContent
+                      plan={animatingToPlan}
+                      billing={billing}
+                      roundedLeft={true}
+                    />
+                    {/* Page landing highlight */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/5 via-transparent to-transparent pointer-events-none" />
                   </div>
                 </motion.div>
-              </AnimatePresence>
-            </div>
+              )}
 
-            {/* Vertical Divider Line on Desktop */}
-            <div className="hidden md:block w-px bg-slate-200/90 self-stretch my-2" />
-
-            {/* ════════ RIGHT PANEL: Included Features & CTA ════════ */}
-            <div className="flex-1 flex flex-col justify-between py-2 sm:py-3">
-              <AnimatePresence mode="wait">
+              {isFlipping && flipDirection === -1 && (
+                /* BACKWARD FLIP: Left ticket page flips 180° back to the Right */
                 <motion.div
-                  key={plan.id}
-                  variants={rightContentVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="flex flex-col h-full justify-between"
+                  key={`leaf-backward-${animatingToPlan.id}`}
+                  initial={{ rotateY: 0 }}
+                  animate={{ rotateY: 180 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.25, 1, 0.5, 1],
+                  }}
+                  onAnimationComplete={onFlipComplete}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "50%",
+                    height: "100%",
+                    transformOrigin: "right center",
+                    transformStyle: "preserve-3d",
+                    zIndex: 25,
+                  }}
+                  className="pointer-events-none"
                 >
-                  <div>
-                    {/* "What's Included" badge matching reference image */}
-                    <div className="mb-6">
-                      <span className="inline-block px-3.5 py-1 rounded-full border border-slate-900/80 text-xs font-bold text-slate-900 tracking-tight">
-                        What&apos;s Included
-                      </span>
-                    </div>
-
-                    {/* Features List with dashed dividers and rounded checkmarks */}
-                    <ul className="space-y-0 mb-8">
-                      {plan.features.map((feature, idx) => (
-                        <li key={idx}>
-                          <div className="flex items-start gap-3 py-2.5">
-                            <div className="mt-0.5 w-4 h-4 rounded-full bg-slate-200/90 text-slate-700 flex items-center justify-center shrink-0">
-                              <Check className="w-2.5 h-2.5 stroke-[3]" />
-                            </div>
-                            <span className="text-xs sm:text-sm text-slate-700 font-medium leading-snug">
-                              {feature}
-                            </span>
-                          </div>
-                          {idx < plan.features.length - 1 && (
-                            <div className="border-b border-dashed border-slate-200/80" />
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Front Face: Previous Plan Ticket (facing viewer initially on left) */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                    }}
+                    className="overflow-hidden rounded-l-2xl shadow-xl border border-slate-200/80"
+                  >
+                    <TicketCardContent
+                      plan={animatingFromPlan}
+                      billing={billing}
+                      roundedLeft={true}
+                    />
+                    {/* Dynamic shadow on lift */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/5 via-black/0 to-transparent pointer-events-none" />
                   </div>
 
-                  {/* Dark CTA Button with accent arrow matching reference image */}
-                  <a
-                    href={plan.ctaHref}
-                    className="group w-full py-4 px-6 rounded-2xl bg-[#0F172A] hover:bg-black text-white font-bold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 shadow-lg shadow-slate-900/10 hover:shadow-xl active:scale-[0.99] cursor-pointer"
+                  {/* Back Face: New Plan Features (revealed as leaf turns past 90° and lands on right) */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      transform: "rotateY(180deg)",
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                    }}
+                    className="overflow-hidden rounded-r-2xl shadow-2xl border border-slate-200/80 bg-white"
                   >
-                    <span>{plan.ctaLabel(billing)}</span>
-                    <ArrowRight className="w-4 h-4 text-[#EF4444] transition-transform duration-200 group-hover:translate-x-1.5" />
-                  </a>
+                    <FeaturesCardContent
+                      plan={animatingToPlan}
+                      billing={billing}
+                      roundedRight={true}
+                    />
+                    {/* Landing highlight */}
+                    <div className="absolute inset-0 bg-gradient-to-l from-black/5 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                </motion.div>
+              )}
+            </div>
+
+            {/* ══════════════════════════════════════════════════════════════════
+                MOBILE / TABLET STACKED SPREAD (< md)
+                Vertical stack with clean 3D fold & crossfade
+            ══════════════════════════════════════════════════════════════════ */}
+            <div className="flex md:hidden flex-col gap-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`mobile-ticket-${plan.id}`}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="min-h-[340px]"
+                >
+                  <TicketCardContent
+                    plan={plan}
+                    billing={billing}
+                    roundedLeft={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`mobile-features-${plan.id}`}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.3, ease: "easeOut", delay: 0.05 }}
+                >
+                  <FeaturesCardContent
+                    plan={plan}
+                    billing={billing}
+                    roundedRight={false}
+                  />
                 </motion.div>
               </AnimatePresence>
             </div>
